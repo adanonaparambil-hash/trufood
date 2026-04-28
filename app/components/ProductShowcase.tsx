@@ -472,52 +472,7 @@ export default function ProductShowcase() {
       {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 80% 40% at 50% 0%, rgba(140,159,78,0.04) 0%, transparent 60%)' }} />
 
-      <div className="max-w-[1400px] mx-auto px-5 md:px-10 lg:px-16 py-20 md:py-28">
-
-        {/* ── Header ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-14"
-        >
-          <span
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-semibold tracking-[0.28em] uppercase mb-6"
-            style={{ background: 'rgba(140,159,78,0.1)', color: '#8C9F4E', border: '1px solid rgba(140,159,78,0.2)' }}
-          >
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#8C9F4E' }} />
-            Our Produce
-          </span>
-
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            <div>
-              <h1
-                className="font-serif font-bold leading-[0.95] mb-3"
-                style={{ fontSize: 'clamp(36px, 6vw, 80px)', color: 'rgba(255,255,255,0.95)' }}
-              >
-                Farm-Fresh.<br />
-                <span style={{ color: '#8C9F4E', fontStyle: 'italic' }}>Every Leaf.</span>
-              </h1>
-              <p className="text-sm md:text-base max-w-[400px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.38)' }}>
-                {PRODUCTS.length} precision-grown products. Click any to explore in detail.
-              </p>
-            </div>
-
-            {/* Stats */}
-            <div className="flex items-center gap-6 md:gap-8">
-              {[
-                { val: '14', label: 'Products' },
-                { val: '0%', label: 'Pesticides' },
-                { val: '365', label: 'Days/year' },
-              ].map(({ val, label }) => (
-                <div key={label} className="text-center">
-                  <p className="font-serif text-2xl md:text-3xl font-black" style={{ color: '#8C9F4E' }}>{val}</p>
-                  <p className="text-[10px] tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.28)' }}>{label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
+      <div className="max-w-[1400px] mx-auto px-5 md:px-10 lg:px-16 py-16 md:py-20">
 
         {/* ── Category filter ── */}
         <motion.div

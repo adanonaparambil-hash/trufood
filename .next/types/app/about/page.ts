@@ -1,4 +1,4 @@
-// File: C:\Users\ITS48\Desktop\Truefood\app\about\page.tsx
+// File: C:\Users\adans\OneDrive\Desktop\truefood\trufood\app\about\page.tsx
 import * as entry from '../../../../app/about/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
