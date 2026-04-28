@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Copy-Item \"C:\\\\Users\\\\ITS48\\\\Desktop\\\\Truefood\\\\Trufud- logo - PNG.png\" -Destination \"C:\\\\Users\\\\ITS48\\\\Desktop\\\\Truefood\\\\public\\\\logo.png\" -Force)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(dir \"C:\\\\Users\\\\ITS48\\\\Desktop\\\\Truefood\\\\public\\\\products\" /B)",
+      "Bash(npx tsc *)",
+      "Bash(npx next *)",
+      "Bash(ping -n 4 127.0.0.1)",
+      "Bash(node -e \"const p=require\\('./node_modules/@react-three/postprocessing/package.json'\\); console.log\\('postprocessing:', p.version\\)\")",
+      "Bash(node -e \"const p=require\\('./node_modules/postprocessing/package.json'\\); console.log\\('postprocessing core:', p.version\\)\")",
+      "Bash(node -e \"const p=require\\('./node_modules/@react-three/fiber/package.json'\\); console.log\\('fiber:', p.version\\)\")",
+      "Bash(node -e \"const p=require\\('./node_modules/@react-three/drei/package.json'\\); console.log\\('drei:', p.version\\)\")",
+      "Bash(node -e \"const {ChromaticAberration} = require\\('@react-three/postprocessing'\\); console.log\\('ChromaticAberration:', typeof ChromaticAberration\\)\")",
+      "Bash(node -e \"const p=require\\('./node_modules/react/package.json'\\); console.log\\('React:', p.version\\)\")",
+      "Bash(npm install *)",
+      "Bash(node -e \"const p=require\\('./node_modules/@react-three/postprocessing/package.json'\\); console.log\\('r3f-post:', p.version\\)\")",
+      "Bash(curl -s -o /dev/null -w \"Home: %{http_code}\\\\n\" http://localhost:3000)",
+      "Bash(curl -s -o /dev/null -w \"About: %{http_code}\\\\n\" http://localhost:3000/about)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(curl -s -o /dev/null -w \"/ → %{http_code}\\\\n/products → \" http://localhost:3000)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/products)",
+      "Bash(curl -s -o /dev/null -w \"/ %{http_code}  /products %{http_code}\" \"http://localhost:3000\" \"http://localhost:3000/products\")",
+      "Bash(curl -s -o /dev/null -w \"/ %{http_code} | /technology %{http_code}\\\\n\" http://localhost:3000 http://localhost:3000/technology)"
+    ]
+  }
+}

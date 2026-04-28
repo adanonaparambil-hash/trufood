@@ -1,0 +1,63 @@
+Filename,Product Display Name,Modern description (Awwwards-Level)
+Arabic_Parsley.png,Arabic Parsley,"The soul of Middle Eastern cuisine, offering fresh, aromatic depth with a subtle earthy complexity."
+Arugula.png,Arugula,"A peppery and slightly bitter leafy green, adding a sharp, zesty personality to sophisticated salads."
+Basil.png,Basil,"Flavoursome, micro-nutrient rich herb, bringing a sweet and savory warmth to your table, year-round."
+Cherry_Tomatoes.jpg,Cherry Tomatoes,"Sweet, tangy, and bursting with natural freshness. Small, vibrant gems that define modern flavor."
+Curly_Kale.jpg,Curly Kale,"Crisp, hearty, and exceptionally rich in nutrients. Defines a new era of robust, healthy eating."
+Encore_Mix.jpg,Encore Mix Lettuce,"A masterfully curated blend of crisp, tender leaves. The ideal foundation for vibrant, balanced salads."
+Grapes.jpg,Grapes,"Fresh, juicy, and naturally sweet. A timeless jewel for snacking, juicing, and elegant plating."
+Green_Kale.jpg,Green Kale,"A hearty, nutrient-dense green with a bitter complexity, essential for high-performance nutrition."
+Lettuce_Oakleaf.jpg,Lettuce Oakleaf,"Delicate, frilled leaves with a mild sweetness. A crisp foundation for the modern, light palate."
+Lollo_Bionda.jpg,Lollo Bionda Green,"Crunchy, mildly flavoured and refreshing. Offers exceptional texture for vibrant, textured salads."
+Lollo_Rosso.jpg,Lollo Rosso Red,Intense burgundy frilled leaves with a mild flavor profile and a nutrient-dense architectural form.
+Rosemary.jpg,Rosemary,"Zesty, fragrant, and bold. A powerful aromatic that brings structural flavor to any culinary creation."
+Thyme.jpg,Thyme,"Fragrant, earthy, and classic. The essential savory component for timeless, sophisticated cuisine."
+Tomatoes.jpg,Tomatoes,"Juicy, vibrant, and full of flavor. The cornerstone of freshness in every premium harvest."  ,,    The "Awwwards-Level" Production Prompt
+ACT AS:
+A Lead Creative Developer specializing in Three.js, React Three Fiber, and GSAP/Framer Motion.
+
+THE TASK:
+Build a "Spatial Product Showcase" for the klekj brand. This section should not be a grid. It must be an immersive, high-performance 3D experience where the product images float in a "Z-Space" tunnel.
+
+CORE CONCEPT:
+As the user scrolls, they "fly" forward through the product images. The images should appear to be floating in a dark, atmospheric void.
+
+DATA SOURCE (Use this specific list):
+(Paste the table/list of 14 products here: Arabic Parsley, Lollo Rosso, Grapes, etc.)
+
+TECHNICAL REQUIREMENTS:
+
+The "Infinite Ribbon" Layout:
+
+Render the images as 3D Planes in a <Canvas> using React Three Fiber.
+
+Arrange them in a staggered 3D spiral (alternating left and right) extending deep into the Z-axis.
+
+The background MUST be a perfect match for the brand's dark mode: #050505.
+
+Kinetic Motion Logic:
+
+Use useScroll to map the scroll progress to the Camera Z-Position.
+
+Implement Smooth Dampening (Lerping) so the movement feels heavy and "expensive." When the user stops scrolling, the scene should settle gently.
+
+Chromatic Aberration Shader: Apply a post-processing effect that creates a slight color-bleed (RGB shift) on the edges of the images only when the user is scrolling fast.
+
+High-End Hover States:
+
+On hover, a 3D Plane should "tilt" toward the mouse (parallax effect).
+
+The Product Display Name should appear in a large, elegant Serif font behind the image (low opacity) and a clean Sans-serif description should fade in at the bottom.
+
+Visual Polish:
+
+Post-Processing: Add a Noise grain and a Vignette to give it a cinematic film quality.
+
+Light Transmission: Add a subtle "Spotlight" that follows the mouse cursor, illuminating the leaves and water droplets of the vegetable images as the cursor passes over them.
+
+Mobile Optimization:
+
+On mobile, collapse the 3D spiral into a vertical "Stack" where images slightly overlap, maintaining the parallax scroll effect.
+
+OUTPUT:
+Generate the complete Next.js component (ProductShowcase.tsx) and any custom Shader materials required. Use the klekj logo colors (Olive Green #8C9F4E and White) for typography.

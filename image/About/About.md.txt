@@ -1,0 +1,60 @@
+AI Code Editor Prompt: "About Us" Spatial Redesign
+ACT AS:
+A World-Class Creative Developer (Awwwards-level) specializing in Next.js 14, Three.js, and high-performance WebGL scrollytelling experiences.
+
+THE TASK:
+Redesign the static "About Us" page from image_16.png into an immersive, single-canvas spatial experience. The current text and navigation must be preserved, but integrated into a fluid 3D environment.
+
+THE DATA (Paste exact text from image_16.png):
+Use the provided data manifest for all content.
+
+Header: "About Us."
+
+About Trufud Section:
+
+"About Trufud Trading SPC"
+
+"Trufud Trading SPC was born in 2021 out of a deep commitment..." (Paste full paragraph)
+
+"On the other hand, vertical farming enables us..." (Paste full paragraph)
+
+Our Farms Section:
+
+"Our Farms"
+
+"Trufud Trading SPC's vertical hydroponic farming module..." (Paste full paragraph)
+
+"Hydroponics provides plants with precisely controlled nutrients..." (Paste full paragraph)
+
+"Our farms feature two farming systems..." (Paste full paragraph)
+
+Navigation & Footer: Keep the exact text and links from image_16.png.
+
+VISUAL DIRECTION:
+
+Color Palette: Modern dark mode. Seamless blending to website background using Deep Forest Obsidian (#050805). Use the Olive Green (#8C9F4E) from the logo for headers and text-white/70 for text.
+
+Texture: All image assets (the "Tunnel," "Exploded Matrix," and "Brand Vessel") must have glistening water droplets that catch the light.
+
+
+
+i jae added al tehiaegs terhe taht you can use and the pocntent i will gouve you pasted in the nboto tyaht you can use . 
+
+About Us
+Farm
+Farm
+Farm
+Farm
+About Trufud Trading SPC
+Trufud Trading SPC was born in 2021 out of a deep commitment to sustainable and efficient food production. Conventional horizontal farming frequently necessitates large areas of land, substantial water use, and a strong reliance on chemical inputs. On the other hand, vertical farming enables us to cultivate a diverse array of crops in a compact, controlled space.
+
+By stacking growing layers vertically, we maximize the use of available space. This enables us to grow more food in a smaller footprint, significantly reducing the land and resources required. Our state-of-the-art facilities utilise advanced hydroponic systems that allow us to precisely monitor and optimise the growing conditions for each crop.
+
+Sustainable Farming
+Our Farms
+Our Farms
+Trufud Trading SPC's vertical hydroponic farming module is an innovative solution for growing crops in limited spaces. Our compact, self-contained units allow for efficient, high-yield food production, even in urban environments or areas with limited arable land. The vertical design maximises the use of available space, stacking multiple growing levels within a small footprint.
+
+Hydroponics provides plants with precisely controlled nutrients and optimal growing conditions, resulting in faster growth and higher yields than traditional farming. These modules are easy to set up and maintain, making them accessible for commercial and residential applications. With their capability to cultivate a variety of fresh produce year-round, the vertical hydroponic farming modules used by Trufud Trading SPC are not only sustainable but also pave the way for the future of agriculture.
+
+Our farms feature two farming systems – a Fan & Pad type hydroponic system set in a 10,000m2 of shade net greenhouse, and a full-automated indoor environment controlled Vertical Ebb & Flow Table System covering a 3,600 m2 area. The former system features Dutch Buckets and nutrient film technique (NFT) hydroponics while the Vertical Ebb & Flow Table System incorporates 10,000 Dutch buckets and 128,000 NFT grow holes.

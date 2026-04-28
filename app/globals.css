@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Custom properties ──────────────────────────────────────────────────── */
+:root {
+  --neon: #7a9a4a;
+  --bg: #050705;
+  --font-playfair: 'Playfair Display', Georgia, serif;
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg);
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--bg);
+  color-scheme: dark;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ─── Grain overlay ──────────────────────────────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  animation: grain 8s steps(10) infinite;
+  opacity: 0.032;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #1a1a1a;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00ff8840;
+}
+
+/* ─── Selection ──────────────────────────────────────────────────────────── */
+::selection {
+  background: #00ff8830;
+  color: #fff;
+}
+
+/* ─── Utility: neon text glow ────────────────────────────────────────────── */
+.neon-text {
+  text-shadow: 0 0 20px #00ff8870, 0 0 60px #00ff8830;
+}
+
+/* ─── Utility: neon border glow ─────────────────────────────────────────── */
+.neon-border {
+  box-shadow: 0 0 0 1px #00ff8840, 0 0 20px #00ff8820;
+}
+
+/* ─── Scan line effect ───────────────────────────────────────────────────── */
+@keyframes scanline {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.scanline::after {
+  content: '';
+  position: absolute;
+  inset-x: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00ff8820, transparent);
+  animation: scanline 4s linear infinite;
+  pointer-events: none;
+}
+
+/* ─── Keyframes ──────────────────────────────────────────────────────────── */
+@keyframes grain {
+  0%,  100% { transform: translate(0,    0);    }
+  10%        { transform: translate(-5%,  -10%); }
+  20%        { transform: translate(-15%, 5%);   }
+  30%        { transform: translate(7%,  -25%);  }
+  40%        { transform: translate(-5%,  25%);  }
+  50%        { transform: translate(-15%, 10%);  }
+  60%        { transform: translate(15%,  0%);   }
+  70%        { transform: translate(0%,   15%);  }
+  80%        { transform: translate(3%,   35%);  }
+  90%        { transform: translate(-10%, 10%);  }
+}
+
+@keyframes scanline-move {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+/* fix: scanline used inline 'scanline' name but keyframe is scanline-move */
+@keyframes scanline {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
