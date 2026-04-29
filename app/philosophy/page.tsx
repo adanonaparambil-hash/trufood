@@ -48,9 +48,9 @@ function Hero() {
       </motion.div>
 
       {/* Overlays */}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, rgba(17,26,18,0.88) 0%, rgba(17,26,18,0.45) 55%, rgba(17,26,18,0.72) 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, rgba(17,26,18,0.58) 0%, rgba(17,26,18,0.18) 55%, rgba(17,26,18,0.42) 100%)' }} />
       <div className="absolute inset-x-0 bottom-0 h-64" style={{ background: 'linear-gradient(to top, #111a12 0%, transparent 100%)' }} />
-      <div className="absolute inset-x-0 top-0 h-40" style={{ background: 'linear-gradient(to bottom, rgba(17,26,18,0.65) 0%, transparent 100%)' }} />
+      <div className="absolute inset-x-0 top-0 h-40" style={{ background: 'linear-gradient(to bottom, rgba(17,26,18,0.35) 0%, transparent 100%)' }} />
 
       <motion.div style={{ opacity: op }}
         className="relative z-10 h-full flex flex-col justify-end pb-16 md:pb-28 px-5 sm:px-8 md:px-16 max-w-[1400px] mx-auto">

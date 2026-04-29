@@ -298,15 +298,15 @@ export default function TechnologyPage() {
         {/* ── GLOBAL OVERLAYS ── */}
         {/* Top vignette */}
         <div className="absolute inset-x-0 top-0 h-40 pointer-events-none z-20"
-          style={{ background: 'linear-gradient(to bottom, rgba(17,26,18,0.75), transparent)' }} />
+          style={{ background: 'linear-gradient(to bottom, rgba(17,26,18,0.45), transparent)' }}/>
         {/* Bottom vignette */}
         <div className="absolute inset-x-0 bottom-0 h-48 pointer-events-none z-20"
           style={{ background: 'linear-gradient(to top, #111a12, transparent)' }} />
         {/* Side vignettes */}
         <div className="absolute inset-y-0 left-0 w-32 pointer-events-none z-20"
-          style={{ background: 'linear-gradient(to right, rgba(17,26,18,0.6), transparent)' }} />
+          style={{ background: 'linear-gradient(to right, rgba(17,26,18,0.35), transparent)' }} />
         <div className="absolute inset-y-0 right-0 w-32 pointer-events-none z-20"
-          style={{ background: 'linear-gradient(to left, rgba(17,26,18,0.6), transparent)' }} />
+          style={{ background: 'linear-gradient(to left, rgba(17,26,18,0.35), transparent)' }} />
 
         {/* ── SECTION 1 TEXT: "Our Technology" ── */}
         <motion.div

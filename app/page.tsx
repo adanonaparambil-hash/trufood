@@ -15,21 +15,21 @@ const SLIDES = [
   {
     id: '01',
     bg: '/LandingPage_imge_first image.jpeg',
-    overlay: 'linear-gradient(110deg, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.50) 45%, rgba(0,0,0,0.20) 100%)',
+    overlay: 'linear-gradient(110deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.05) 100%)',
     heading: 'Growing a\nSustainable Food\nSystem for Oman',
     sub: 'At Trufud Trading SPC, we are on a mission to redefine the future of agriculture through innovation, sustainability and quality.',
   },
   {
     id: '02',
     bg: '/Stunning_cinematic_aerial_202604271225.jpeg',
-    overlay: 'linear-gradient(110deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.52) 48%, rgba(0,0,0,0.18) 100%)',
+    overlay: 'linear-gradient(110deg, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.28) 48%, rgba(0,0,0,0.05) 100%)',
     heading: 'Vertical Farming.\nReimagined for Oman.',
     sub: 'State-of-the-art LED hydroponic towers delivering year-round harvests, independent of climate and season.',
   },
   {
     id: '03',
     bg: '/Macro_close-up_photography_202604271227.jpeg',
-    overlay: 'linear-gradient(110deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.62) 48%, rgba(0,0,0,0.32) 100%)',
+    overlay: 'linear-gradient(110deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.35) 48%, rgba(0,0,0,0.10) 100%)',
     heading: 'Roots in Science.\nGrowth in Purpose.',
     sub: 'Hydroponic systems that deliver 10× yields with 95% less water than traditional agriculture.',
   },
@@ -119,7 +119,7 @@ function HeroSection() {
         />
       </AnimatePresence>
       <div className="absolute inset-x-0 top-0 h-40 z-10 pointer-events-none"
-        style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.65), transparent)' }} />
+        style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.38), transparent)' }} />
       <div className="absolute inset-x-0 bottom-0 h-48 z-10 pointer-events-none"
         style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.9), transparent)' }} />
 

@@ -34,9 +34,9 @@ function HeroSection() {
       <motion.div className="absolute inset-0" style={{ y, scale: scl }}>
         <img src="/about-4.jpeg" alt="Trufud vertical farm" className="w-full h-full object-cover object-center" draggable={false} />
       </motion.div>
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, rgba(17,26,18,0.82) 0%, rgba(17,26,18,0.4) 55%, rgba(17,26,18,0.7) 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, rgba(17,26,18,0.55) 0%, rgba(17,26,18,0.18) 55%, rgba(17,26,18,0.38) 100%)' }} />
       <div className="absolute inset-x-0 bottom-0 h-56" style={{ background: 'linear-gradient(to top, #111a12 0%, transparent 100%)' }} />
-      <div className="absolute inset-x-0 top-0 h-36" style={{ background: 'linear-gradient(to bottom, rgba(17,26,18,0.6) 0%, transparent 100%)' }} />
+      <div className="absolute inset-x-0 top-0 h-36" style={{ background: 'linear-gradient(to bottom, rgba(17,26,18,0.35) 0%, transparent 100%)' }} />
       <motion.div style={{ opacity: op }}
         className="relative z-10 h-full flex flex-col justify-end pb-16 md:pb-24 px-5 sm:px-8 md:px-16 max-w-[1400px] mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }} className="mb-4 md:mb-6">
