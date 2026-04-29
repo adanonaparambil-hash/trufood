@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import Link from 'next/link'
 import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
 /* ─────────────────────────────────────────────────────────────────────────────
    NAV
@@ -448,6 +449,7 @@ export default function TechnologyPage() {
         </div>
 
       </div>
+      <Footer />
     </div>
   )
 }

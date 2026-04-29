@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion'
 import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
 /* ─── Content ────────────────────────────────────────────────────────────────*/
 const PILLARS = [
@@ -339,6 +340,7 @@ export default function PhilosophyPage() {
           </div>
         </motion.div>
       </section>
+      <Footer />
     </main>
   )
 }

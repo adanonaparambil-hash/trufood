@@ -12,7 +12,7 @@ const NAV_HREF: Record<string, string> = {
   'Technology':     '/technology',
   'Our Philosophy': '/philosophy',
   'Products':       '/products',
-  'Contact':        '/#contact',
+  'Contact':        '/contact',
 }
 
 export default function Navbar({ activePage }: { activePage?: string }) {
@@ -80,7 +80,7 @@ export default function Navbar({ activePage }: { activePage?: string }) {
 
         {/* CTA */}
         <Link
-          href="/#contact"
+          href="/contact"
           className="hidden lg:inline-flex items-center gap-2 text-[13px] font-semibold px-6 py-3 rounded-full transition-all duration-200 hover:bg-white/10"
           style={{ color: 'rgba(255,255,255,0.88)', border: '1px solid rgba(255,255,255,0.3)' }}
         >
@@ -127,7 +127,7 @@ export default function Navbar({ activePage }: { activePage?: string }) {
                 </Link>
               ))}
               <Link
-                href="/#contact"
+                href="/contact"
                 onClick={() => setMobileOpen(false)}
                 className="text-[14px] font-semibold px-6 py-3 rounded-full text-center mt-1"
                 style={{ border: '1px solid rgba(255,255,255,0.28)', color: 'rgba(255,255,255,0.88)' }}

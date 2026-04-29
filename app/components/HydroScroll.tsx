@@ -244,32 +244,34 @@ export default function HydroScroll() {
     let done = 0
     const images: HTMLImageElement[] = new Array(TOTAL_FRAMES)
 
+    const finish = () => {
+      setIsLoaded(true)
+      setTimeout(() => setShowLoader(false), 400)
+    }
+
+    // Hard timeout: never block the page for more than 4 seconds
+    const timeout = setTimeout(finish, 4000)
+
     FRAME_SRCS.forEach((src, i) => {
       const img = new Image()
 
-      img.onload = () => {
+      const onDone = () => {
         done++
         setLoadPct(Math.round((done / TOTAL_FRAMES) * 100))
         if (done === TOTAL_FRAMES) {
-          setIsLoaded(true)
-          setTimeout(() => setShowLoader(false), 500)
+          clearTimeout(timeout)
+          finish()
         }
       }
 
-      img.onerror = () => {
-        done++
-        setLoadPct(Math.round((done / TOTAL_FRAMES) * 100))
-        if (done === TOTAL_FRAMES) {
-          setIsLoaded(true)
-          setTimeout(() => setShowLoader(false), 500)
-        }
-      }
-
+      img.onload  = onDone
+      img.onerror = onDone
       img.src = src
       images[i] = img
     })
 
     imagesRef.current = images
+    return () => clearTimeout(timeout)
   }, [])
 
   /* ── Setup canvas sizing + resize listener ── */

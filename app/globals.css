@@ -113,3 +113,40 @@ body::after {
   0%   { transform: translateY(-100%); }
   100% { transform: translateY(100vh); }
 }
+
+/* ─── Premium card depth shimmer ────────────────────────────────────────── */
+@keyframes depth-shimmer {
+  0%, 100% { opacity: 0.28; }
+  50%      { opacity: 0.65; }
+}
+
+/* ─── Soft ambient pulse ─────────────────────────────────────────────────── */
+@keyframes ambient-pulse {
+  0%, 100% { opacity: 0.04; transform: scale(1);    }
+  50%      { opacity: 0.08; transform: scale(1.06); }
+}
+
+/* ─── Tag glow breathe ───────────────────────────────────────────────────── */
+@keyframes tag-breathe {
+  0%, 100% { box-shadow: 0 0  6px rgba(140,159,78,0.1); }
+  50%      { box-shadow: 0 0 14px rgba(140,159,78,0.3); }
+}
+
+/* ─── Modal entrance shimmer ─────────────────────────────────────────────── */
+@keyframes modal-shine {
+  0%   { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(350%)  skewX(-15deg); }
+}
+
+/* ─── CSS-only particle float (no JS animation cost) ────────────────────── */
+@keyframes particle-drift {
+  0%   { transform: translate(0, 0) scale(1);   opacity: var(--p-op); }
+  40%  { transform: translate(var(--p-dx), var(--p-dy)) scale(1.35); opacity: calc(var(--p-op) * 2.8); }
+  100% { transform: translate(0, 0) scale(1);   opacity: var(--p-op); }
+}
+
+/* ─── CSS-only card idle float ───────────────────────────────────────────── */
+@keyframes card-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(calc(var(--amp, 8px) * -1)); }
+}

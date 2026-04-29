@@ -4,6 +4,8 @@ import { useRef, useState, useEffect } from 'react'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import Navbar from '../components/Navbar'
+import VideoShowcase from '../components/VideoShowcase'
+import Footer from '../components/Footer'
 
 /* ─── Section data ───────────────────────────────────────────────────────────*/
 const SECTIONS = [
@@ -464,6 +466,9 @@ export default function AboutPage() {
         </div>
       </div>
 
+      {/* ── Video showcase ── */}
+      <VideoShowcase />
+
       {/* ── Sustainable farming ribbon ── */}
       <section className="relative py-28 overflow-hidden" style={{ background: '#030603' }}>
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 60% 70% at 50% 50%, rgba(140,159,78,0.06) 0%, transparent 70%)' }} />
@@ -522,20 +527,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="border-t py-10 px-6" style={{ background: '#050805', borderColor: 'rgba(255,255,255,0.05)' }}>
-        <div className="max-w-[1320px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="Trufud" className="h-7 w-auto" style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
-            <span className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>Trading SPC</span>
-          </div>
-          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.22)' }}>© 2026 Trufud Trading SPC. All rights reserved.</p>
-          <div className="flex items-center gap-2 text-xs" style={{ color: 'rgba(255,255,255,0.22)' }}>
-            <span>Sustainable since 2024</span>
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#8C9F4E', boxShadow: '0 0 6px #8C9F4E' }} />
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </main>
   )
 }

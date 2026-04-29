@@ -7,7 +7,9 @@ import HydroScroll from './components/HydroScroll'
 import AboutSection from './components/AboutSection'
 import ProductsSection from './components/ProductsSection'
 import ProductShowcase from './components/ProductShowcase'
+import VideoShowcase from './components/VideoShowcase'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 /* ─── Hero slides ─────────────────────────────────────────────────────────── */
 /*
@@ -499,128 +501,73 @@ function Features() {
 }
 
 /* ─── CTA banner ──────────────────────────────────────────────────────────── */
-function CTABanner() {
+function ContactBanner() {
   return (
-    <section className="py-24 px-6" style={{ background: '#050705' }}>
+    <section className="relative py-28 px-6 overflow-hidden" style={{ background: '#050705' }}>
+      {/* Ambient glow */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(140,159,78,0.07) 0%, transparent 70%)' }} />
+      {/* Top line */}
+      <div className="absolute top-0 inset-x-0 h-px pointer-events-none"
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(140,159,78,0.25), transparent)' }} />
+
       <motion.div
-        initial={{ opacity: 0, y: 32 }}
+        initial={{ opacity: 0, y: 36 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="max-w-4xl mx-auto rounded-2xl overflow-hidden relative"
-        style={{
-          background: 'linear-gradient(135deg, #0d1a0a 0%, #060906 100%)',
-          border: '1px solid rgba(122,154,74,0.18)',
-          boxShadow: '0 0 100px rgba(122,154,74,0.06)',
-        }}
+        transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 max-w-[720px] mx-auto text-center"
       >
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(122,154,74,0.1) 0%, transparent 70%)' }}
-        />
-        <div className="relative z-10 flex flex-col items-center text-center py-20 px-8">
-          <span className="block text-xs font-semibold tracking-[0.3em] uppercase mb-6" style={{ color: '#7a9a4a' }}>
-            Start growing
-          </span>
-          <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight" style={{ color: 'rgba(255,255,255,0.92)' }}>
-            Ready to farm the future?
-          </h2>
-          <p className="text-base md:text-lg mb-10 max-w-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.48)' }}>
-            Join forward-thinking farmers and enterprises building tomorrow&apos;s food supply with Trufud systems.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-8 py-3.5 rounded-full font-semibold text-sm"
-              style={{ background: '#6b8c3e', color: '#fff' }}
+        <span className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.3em] uppercase mb-6"
+          style={{ color: '#8C9F4E' }}>
+          <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#8C9F4E', boxShadow: '0 0 8px #8C9F4E' }} />
+          Get In Touch
+        </span>
+
+        <h2 className="font-serif font-bold leading-tight mb-5"
+          style={{ fontSize: 'clamp(32px, 5vw, 62px)', color: 'rgba(255,255,255,0.95)' }}>
+          Let&apos;s build the future<br />
+          <span style={{ color: '#8C9F4E', fontStyle: 'italic' }}>of food together.</span>
+        </h2>
+
+        <p className="text-base md:text-lg leading-relaxed mb-10 max-w-[480px] mx-auto"
+          style={{ color: 'rgba(255,255,255,0.45)' }}>
+          Have a project in mind or want to learn more about Trufud farming systems? We&apos;d love to hear from you.
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2.5 px-9 py-4 rounded-full font-semibold text-sm"
+              style={{
+                background: 'linear-gradient(135deg, #8C9F4E, #5c6b2e)',
+                color: '#fff',
+                boxShadow: '0 0 40px rgba(140,159,78,0.28)',
+              }}
             >
-              Request a Demo
-            </motion.a>
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-8 py-3.5 rounded-full font-semibold text-sm"
-              style={{ color: 'rgba(255,255,255,0.75)', border: '1px solid rgba(255,255,255,0.18)', background: 'transparent' }}
+              Contact Us
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
+          </motion.div>
+
+          <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+            <a
+              href="mailto:info@trufudoman.com"
+              className="inline-flex items-center gap-2.5 px-9 py-4 rounded-full font-semibold text-sm"
+              style={{ color: 'rgba(255,255,255,0.65)', border: '1px solid rgba(255,255,255,0.15)' }}
             >
-              Download Brochure
-            </motion.a>
-          </div>
+              info@trufudoman.com
+            </a>
+          </motion.div>
         </div>
       </motion.div>
     </section>
   )
 }
 
-/* ─── Footer ──────────────────────────────────────────────────────────────── */
-function Footer() {
-  const cols = [
-    { title: 'Product', links: ['Hydroponic Towers', 'Nutrient Systems', 'LED Rigs', 'Sensors & IoT'] },
-    { title: 'Company', links: ['About', 'Careers', 'Press', 'Contact'] },
-    { title: 'Resources', links: ['Documentation', 'Case Studies', 'Blog', 'API'] },
-  ]
-
-  return (
-    <footer className="border-t py-16 px-6" style={{ background: '#050705', borderColor: 'rgba(255,255,255,0.06)' }}>
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-1">
-            <img
-              src="/logo.png"
-              alt="Trufud"
-              className="h-8 w-auto mb-4"
-              style={{ filter: 'brightness(0) invert(1)', opacity: 0.8 }}
-            />
-            <p className="text-xs leading-relaxed max-w-[200px]" style={{ color: 'rgba(255,255,255,0.32)' }}>
-              Precision vertical farming systems for the future of food.
-            </p>
-          </div>
-          {cols.map((col) => (
-            <div key={col.title}>
-              <p className="text-[10px] font-semibold tracking-widest uppercase mb-4" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                {col.title}
-              </p>
-              <ul className="space-y-2.5">
-                {col.links.map((l) => (
-                  <li key={l}>
-                    <a
-                      href="#"
-                      className="text-sm transition-colors duration-200"
-                      style={{ color: 'rgba(255,255,255,0.32)' }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.78)')}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.32)')}
-                    >
-                      {l}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <div
-          className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t"
-          style={{ borderColor: 'rgba(255,255,255,0.06)' }}
-        >
-          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.22)' }}>
-            © 2026 Trufud Trading SPC. All rights reserved.
-          </p>
-          <div className="flex items-center gap-2 text-xs" style={{ color: 'rgba(255,255,255,0.22)' }}>
-            <span>Sustainable since 2024</span>
-            <span
-              className="w-1.5 h-1.5 rounded-full"
-              style={{ background: '#7a9a4a', boxShadow: '0 0 6px #7a9a4a' }}
-            />
-          </div>
-        </div>
-      </div>
-    </footer>
-  )
-}
 
 /* ─── Page ────────────────────────────────────────────────────────────────── */
 export default function Page() {
@@ -634,7 +581,8 @@ export default function Page() {
       <ProductShowcase />
       <Stats />
       <Features />
-      <CTABanner />
+      <VideoShowcase />
+      <ContactBanner />
       <Footer />
     </main>
   )

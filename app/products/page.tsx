@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import ProductShowcase from '../components/ProductShowcase'
 import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
 function HeroSection() {
   const ref = useRef<HTMLDivElement>(null)
@@ -86,6 +87,7 @@ export default function ProductsPage() {
       <Navbar activePage="Products" />
       <HeroSection />
       <ProductShowcase />
+      <Footer />
     </main>
   )
 }

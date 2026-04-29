@@ -1,444 +1,751 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
+import {
+  motion, AnimatePresence, useInView,
+  useMotionValue, useSpring, useTransform,
+} from 'framer-motion'
 
-/* ─── Products ──────────────────────────────────────────────────────────────*/
+/* ─── Types & Data ───────────────────────────────────────────────────────── */
 type Product = { file: string; name: string; desc: string; category: string; origin: string; tags: string[] }
 
 const PRODUCTS: Product[] = [
-  { file: 'Arabic_Parsley.png',   name: 'Arabic Parsley',     desc: 'The soul of Middle Eastern cuisine, offering fresh, aromatic depth with a subtle earthy complexity.',                                    category: 'Herbs',    origin: 'Vertical Farm', tags: ['Aromatic', 'Fresh'] },
-  { file: 'Arugula.png',          name: 'Arugula',            desc: 'A peppery and slightly bitter leafy green, adding a sharp, zesty personality to sophisticated salads.',                                    category: 'Greens',   origin: 'Vertical Farm', tags: ['Peppery', 'Salad'] },
-  { file: 'Basil.png',            name: 'Basil',              desc: 'Flavoursome, micro-nutrient rich herb, bringing a sweet and savory warmth to your table, year-round.',                                     category: 'Herbs',    origin: 'Vertical Farm', tags: ['Sweet', 'Aromatic'] },
-  { file: 'Cherry_Tomatoes.jpeg', name: 'Cherry Tomatoes',    desc: 'Sweet, tangy, and bursting with natural freshness. Small, vibrant gems that define modern flavor.',                                        category: 'Fruits',   origin: 'Vertical Farm', tags: ['Sweet', 'Vibrant'] },
-  { file: 'Curly_Kale.jpeg',      name: 'Curly Kale',         desc: 'Crisp, hearty, and exceptionally rich in nutrients. Defines a new era of robust, healthy eating.',                                         category: 'Greens',   origin: 'Vertical Farm', tags: ['Nutrient-Dense', 'Crisp'] },
-  { file: 'Encore_Mix.jpeg',      name: 'Encore Mix Lettuce', desc: 'A masterfully curated blend of crisp, tender leaves. The ideal foundation for vibrant, balanced salads.',                                  category: 'Lettuce',  origin: 'Vertical Farm', tags: ['Blend', 'Tender'] },
-  { file: 'Grapes.jpeg',          name: 'Grapes',             desc: 'Fresh, juicy, and naturally sweet. A timeless jewel for snacking, juicing, and elegant plating.',                                          category: 'Fruits',   origin: 'Vertical Farm', tags: ['Juicy', 'Sweet'] },
-  { file: 'Green_Kale.jpeg',      name: 'Green Kale',         desc: 'A hearty, nutrient-dense green with a bitter complexity, essential for high-performance nutrition.',                                        category: 'Greens',   origin: 'Vertical Farm', tags: ['Hearty', 'Nutrition'] },
-  { file: 'Lettuce_Oakleaf.jpeg', name: 'Lettuce Oakleaf',    desc: 'Delicate, frilled leaves with a mild sweetness. A crisp foundation for the modern, light palate.',                                         category: 'Lettuce',  origin: 'Vertical Farm', tags: ['Delicate', 'Mild'] },
-  { file: 'Lollo_Bionda.jpeg',    name: 'Lollo Bionda Green', desc: 'Crunchy, mildly flavoured and refreshing. Offers exceptional texture for vibrant, textured salads.',                                       category: 'Lettuce',  origin: 'Vertical Farm', tags: ['Crunchy', 'Refreshing'] },
-  { file: 'Lollo_Rosso.jpeg',     name: 'Lollo Rosso Red',    desc: 'Intense burgundy frilled leaves with a mild flavor and a nutrient-dense architectural form.',                                              category: 'Lettuce',  origin: 'Vertical Farm', tags: ['Burgundy', 'Architectural'] },
-  { file: 'Rosemary.jpeg',        name: 'Rosemary',           desc: 'Zesty, fragrant, and bold. A powerful aromatic that brings structural flavor to any culinary creation.',                                   category: 'Herbs',    origin: 'Vertical Farm', tags: ['Bold', 'Fragrant'] },
-  { file: 'Thyme.jpeg',           name: 'Thyme',              desc: 'Fragrant, earthy, and classic. The essential savory component for timeless, sophisticated cuisine.',                                        category: 'Herbs',    origin: 'Vertical Farm', tags: ['Earthy', 'Classic'] },
-  { file: 'Tomatoes.jpeg',        name: 'Tomatoes',           desc: 'Juicy, vibrant, and full of flavor. The cornerstone of freshness in every premium harvest.',                                               category: 'Fruits',   origin: 'Vertical Farm', tags: ['Juicy', 'Premium'] },
+  { file: 'Arabic_Parsley.png',   name: 'Arabic Parsley',     desc: 'The soul of Middle Eastern cuisine, offering fresh, aromatic depth with a subtle earthy complexity that elevates every dish.',              category: 'Herbs',   origin: 'Vertical Farm', tags: ['Aromatic', 'Fresh']         },
+  { file: 'Arugula.png',          name: 'Arugula',            desc: 'A peppery and slightly bitter leafy green, adding a sharp, zesty personality to sophisticated salads and gourmet plates.',                  category: 'Greens',  origin: 'Vertical Farm', tags: ['Peppery', 'Salad']          },
+  { file: 'Basil.png',            name: 'Basil',              desc: 'Flavoursome, micro-nutrient rich herb, bringing a sweet and savory warmth to your table every day of the year.',                            category: 'Herbs',   origin: 'Vertical Farm', tags: ['Sweet', 'Aromatic']         },
+  { file: 'Cherry_Tomatoes.jpeg', name: 'Cherry Tomatoes',    desc: 'Sweet, tangy, and bursting with natural freshness. Small, vibrant gems that define modern flavor in every bite.',                           category: 'Fruits',  origin: 'Vertical Farm', tags: ['Sweet', 'Vibrant']          },
+  { file: 'Curly_Kale.jpeg',      name: 'Curly Kale',         desc: 'Crisp, hearty, and exceptionally rich in nutrients. Defines a new era of robust, healthy eating for the discerning palate.',               category: 'Greens',  origin: 'Vertical Farm', tags: ['Nutrient-Dense', 'Crisp']   },
+  { file: 'Encore_Mix.jpeg',      name: 'Encore Mix Lettuce', desc: 'A masterfully curated blend of crisp, tender leaves. The ideal foundation for vibrant, balanced salads with complex texture.',              category: 'Lettuce', origin: 'Vertical Farm', tags: ['Blend', 'Tender']           },
+  { file: 'Grapes.jpeg',          name: 'Grapes',             desc: 'Fresh, juicy, and naturally sweet. A timeless jewel for snacking, juicing, and elegant plating at any occasion.',                           category: 'Fruits',  origin: 'Vertical Farm', tags: ['Juicy', 'Sweet']            },
+  { file: 'Green_Kale.jpeg',      name: 'Green Kale',         desc: 'A hearty, nutrient-dense green with a bitter complexity, essential for high-performance nutrition and powerful smoothies.',                  category: 'Greens',  origin: 'Vertical Farm', tags: ['Hearty', 'Nutrition']       },
+  { file: 'Lettuce_Oakleaf.jpeg', name: 'Lettuce Oakleaf',    desc: 'Delicate, frilled leaves with a mild sweetness. A crisp, elegant foundation for the modern, light palate and refined salads.',              category: 'Lettuce', origin: 'Vertical Farm', tags: ['Delicate', 'Mild']          },
+  { file: 'Lollo_Bionda.jpeg',    name: 'Lollo Bionda Green', desc: 'Crunchy, mildly flavoured and refreshing. Offers exceptional texture and architectural form for vibrant, textured salads.',                  category: 'Lettuce', origin: 'Vertical Farm', tags: ['Crunchy', 'Refreshing']     },
+  { file: 'Lollo_Rosso.jpeg',     name: 'Lollo Rosso Red',    desc: 'Intense burgundy frilled leaves with a mild flavor and a nutrient-dense architectural form that elevates any presentation.',                 category: 'Lettuce', origin: 'Vertical Farm', tags: ['Burgundy', 'Architectural']  },
+  { file: 'Rosemary.jpeg',        name: 'Rosemary',           desc: 'Zesty, fragrant, and bold. A powerful aromatic that brings structural, timeless flavor to every culinary creation.',                        category: 'Herbs',   origin: 'Vertical Farm', tags: ['Bold', 'Fragrant']          },
+  { file: 'Thyme.jpeg',           name: 'Thyme',              desc: 'Fragrant, earthy, and classic. The essential savory component for timeless, sophisticated cuisine from every corner of the world.',           category: 'Herbs',   origin: 'Vertical Farm', tags: ['Earthy', 'Classic']         },
+  { file: 'Tomatoes.jpeg',        name: 'Tomatoes',           desc: 'Juicy, vibrant, and full of flavor. The cornerstone of freshness in every premium harvest, grown with zero compromise.',                     category: 'Fruits',  origin: 'Vertical Farm', tags: ['Juicy', 'Premium']          },
 ]
 
 const CATEGORIES = ['All', 'Greens', 'Herbs', 'Lettuce', 'Fruits']
 
-/* ─── Magnetic cursor spotlight ─────────────────────────────────────────────*/
-function CursorSpotlight() {
-  const spotRef = useRef<HTMLDivElement>(null)
+/* ─── Depth config (cycles per card index) ───────────────────────────────── */
+const DEPTHS = [
+  { z: -22, rx: -1.8, ry: -2.8, phase: 0,   amp: 6  },
+  { z: 12,  rx: 1.2,  ry: 1.8,  phase: 1.1, amp: 10 },
+  { z: 42,  rx: -2.2, ry: -1.2, phase: 2.2, amp: 13 },
+  { z: 8,   rx: 1.8,  ry: -2.2, phase: 3.3, amp: 8  },
+  { z: -28, rx: -1.2, ry: 2.2,  phase: 4.4, amp: 5  },
+]
+
+/* ─── CSS-only particles (zero JS animation cost) ────────────────────────── */
+function ParticleField() {
+  const pts = useMemo(() =>
+    Array.from({ length: 14 }, (_, i) => ({
+      id:    i,
+      left:  `${7 + (i * 6.5) % 86}%`,
+      top:   `${10 + (i * 8.1) % 80}%`,
+      size:  1.4 + (i % 3) * 0.8,
+      dur:   `${9 + (i % 5) * 2.2}s`,
+      del:   `${-(i * 1.3) % 9}s`,
+      op:    0.045 + (i % 4) * 0.022,
+      green: i % 3 !== 0,
+      dx:    `${(i % 2 === 0 ? 1 : -1) * (7 + (i % 4) * 4)}px`,
+      dy:    `-${20 + (i % 5) * 12}px`,
+    })), [])
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
+      {pts.map(p => (
+        <div
+          key={p.id}
+          className="absolute rounded-full"
+          style={{
+            left: p.left, top: p.top,
+            width: p.size, height: p.size,
+            background: p.green ? 'rgba(140,159,78,0.9)' : 'rgba(255,255,255,0.7)',
+            // CSS custom properties for the keyframe
+            ['--p-op' as string]: p.op,
+            ['--p-dx' as string]: p.dx,
+            ['--p-dy' as string]: p.dy,
+            animation: `particle-drift ${p.dur} ${p.del} infinite ease-in-out`,
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
+/* ─── Cursor glow ────────────────────────────────────────────────────────── */
+function CursorGlow() {
+  const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
-    const move = (e: MouseEvent) => {
-      if (spotRef.current) {
-        spotRef.current.style.left = e.clientX + 'px'
-        spotRef.current.style.top  = e.clientY + 'px'
-      }
+    const fn = (e: MouseEvent) => {
+      if (!ref.current) return
+      ref.current.style.left = e.clientX + 'px'
+      ref.current.style.top  = e.clientY + 'px'
     }
-    window.addEventListener('mousemove', move)
-    return () => window.removeEventListener('mousemove', move)
+    window.addEventListener('mousemove', fn)
+    return () => window.removeEventListener('mousemove', fn)
   }, [])
   return (
     <div
-      ref={spotRef}
+      ref={ref}
       className="pointer-events-none fixed z-[9990] -translate-x-1/2 -translate-y-1/2"
       style={{
-        width: 320, height: 320,
-        background: 'radial-gradient(circle, rgba(140,159,78,0.07) 0%, transparent 70%)',
+        width: 480, height: 480,
+        background: 'radial-gradient(circle, rgba(140,159,78,0.052) 0%, transparent 65%)',
         borderRadius: '50%',
-        transition: 'left 0.12s ease, top 0.12s ease',
+        transition: 'left 0.18s ease, top 0.18s ease',
       }}
     />
   )
 }
 
-/* ─── 3D tilt card ───────────────────────────────────────────────────────────*/
-function TiltCard({
-  product, index, isActive, onClick,
+/* ─── Premium product card ───────────────────────────────────────────────── */
+function ProductCard({
+  product, index, depthIdx, anyOpen, thisOpen, onClick,
 }: {
-  product: Product; index: number; isActive: boolean; onClick: () => void
+  product: Product; index: number; depthIdx: number
+  anyOpen: boolean; thisOpen: boolean
+  onClick: () => void
 }) {
-  const cardRef  = useRef<HTMLDivElement>(null)
-  const inView   = useInView(cardRef, { once: true, margin: '-60px' })
+  const wrapRef = useRef<HTMLDivElement>(null)
+  const inView  = useInView(wrapRef, { once: true, margin: '-70px' })
+  const dep     = DEPTHS[depthIdx % DEPTHS.length]
 
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-  const rotX   = useSpring(useTransform(mouseY, [-0.5, 0.5], [8, -8]),  { stiffness: 200, damping: 20 })
-  const rotY   = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]),  { stiffness: 200, damping: 20 })
-  const glowX  = useTransform(mouseX, [-0.5, 0.5], ['0%', '100%'])
-  const glowY  = useTransform(mouseY, [-0.5, 0.5], ['0%', '100%'])
+  /* per-card mouse tilt */
+  const mx   = useMotionValue(0)
+  const my   = useMotionValue(0)
+  const rotX = useSpring(useTransform(my, [-0.5, 0.5], [10, -10]), { stiffness: 260, damping: 26 })
+  const rotY = useSpring(useTransform(mx, [-0.5, 0.5], [-10, 10]), { stiffness: 260, damping: 26 })
+  const finalRotX = useTransform(rotX, v => v + dep.rx)
+  const finalRotY = useTransform(rotY, v => v + dep.ry)
 
-  const [hovered, setHovered] = useState(false)
+  /* glare position */
+  const glX = useTransform(mx, [-0.5, 0.5], ['8%', '92%'])
+  const glY = useTransform(my, [-0.5, 0.5], ['8%', '92%'])
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = cardRef.current?.getBoundingClientRect()
-    if (!rect) return
-    mouseX.set((e.clientX - rect.left) / rect.width - 0.5)
-    mouseY.set((e.clientY - rect.top)  / rect.height - 0.5)
-  }, [mouseX, mouseY])
+  const [hov, setHov]     = useState(false)
+  const [swept, setSwept] = useState(false)
 
-  const handleMouseLeave = useCallback(() => {
-    mouseX.set(0); mouseY.set(0); setHovered(false)
-  }, [mouseX, mouseY])
+  const onMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const r = wrapRef.current?.getBoundingClientRect()
+    if (!r) return
+    mx.set((e.clientX - r.left) / r.width  - 0.5)
+    my.set((e.clientY - r.top)  / r.height - 0.5)
+  }, [mx, my])
 
-  const stagger = (index % 4) * 0.07
+  const onEnter = useCallback(() => {
+    setHov(true)
+    setSwept(false)
+    requestAnimationFrame(() => {
+      setSwept(true)
+      setTimeout(() => setSwept(false), 900)
+    })
+  }, [])
+
+  const onLeave = useCallback(() => {
+    mx.set(0); my.set(0); setHov(false)
+  }, [mx, my])
+
+  const isFront    = dep.z > 30
+  const baseScale  = isFront ? 1.045 : dep.z > 0 ? 1.01 : 0.972
+  const stagger    = (index % 5) * 0.09
+  const isDefocused = anyOpen && !thisOpen
 
   return (
-    <motion.div
-      ref={cardRef}
-      initial={{ opacity: 0, y: 40, scale: 0.94 }}
-      animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.65, delay: stagger, ease: [0.22, 1, 0.36, 1] }}
-      style={{ perspective: 800 }}
-      className="cursor-pointer"
-      onClick={onClick}
-    >
+    <div ref={wrapRef}>
+      {/* ── Layer 1: scroll-in visibility ── */}
       <motion.div
-        style={{ rotateX: rotX, rotateY: rotY, transformStyle: 'preserve-3d' }}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={handleMouseLeave}
-        className="relative overflow-hidden rounded-2xl"
-        whileHover={{ scale: 1.02 }}
-        transition={{ duration: 0.2 }}
+        initial={{ opacity: 0, y: 50, scale: 0.9 }}
+        animate={inView ? {
+          opacity: isDefocused ? 0.28 : 1,
+          y:  0,
+          scale: isDefocused ? 0.93 : 1,
+          filter: isDefocused ? 'blur(3.5px)' : 'blur(0px)',
+        } : {}}
+        transition={{
+          opacity: { duration: 0.72, delay: stagger, ease: [0.22, 1, 0.36, 1] },
+          scale:   { duration: 0.72, delay: stagger, ease: [0.22, 1, 0.36, 1] },
+          y:       { duration: 0.72, delay: stagger, ease: [0.22, 1, 0.36, 1] },
+          filter:  { duration: 0.45 },
+        }}
       >
-        {/* Glass background */}
+        {/* ── Layer 2: CSS idle float (separate element, no transform conflict) ── */}
         <div
-          className="absolute inset-0 rounded-2xl"
-          style={{
-            background: isActive
-              ? 'linear-gradient(145deg, rgba(20,38,14,0.95) 0%, rgba(12,22,10,0.98) 100%)'
-              : 'linear-gradient(145deg, rgba(12,18,10,0.85) 0%, rgba(7,11,7,0.9) 100%)',
-            backdropFilter: 'blur(12px)',
-            border: `1px solid ${isActive ? 'rgba(140,159,78,0.45)' : 'rgba(140,159,78,0.1)'}`,
-            boxShadow: isActive
-              ? '0 0 0 1px rgba(140,159,78,0.15), 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)'
-              : '0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)',
-            transition: 'border-color 0.3s, box-shadow 0.3s',
-          }}
-        />
-
-        {/* Dynamic glare highlight */}
-        {hovered && (
-          <motion.div
-            className="absolute inset-0 pointer-events-none rounded-2xl"
-            style={{
-              background: `radial-gradient(circle at ${glowX.get()} ${glowY.get()}, rgba(140,159,78,0.12) 0%, transparent 60%)`,
-              opacity: 0.8,
-            }}
-          />
-        )}
-
-        {/* Image area */}
-        <div
-          className="relative flex items-center justify-center overflow-hidden"
-          style={{ height: 160, background: 'rgba(255,255,255,0.015)' }}
+          style={inView ? {
+            ['--amp' as string]: `${dep.amp}px`,
+            animation: `card-float ${4.8 + dep.phase * 0.28}s ${dep.phase * 0.6}s infinite ease-in-out`,
+          } : {}}
         >
-          {/* Ghost name behind image */}
-          <span
-            className="absolute inset-0 flex items-center justify-center font-serif font-black select-none pointer-events-none"
-            style={{
-              fontSize: 'clamp(28px, 4vw, 42px)',
-              color: 'rgba(140,159,78,0.06)',
-              letterSpacing: '-0.02em',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              transition: 'opacity 0.3s',
-              opacity: hovered ? 1 : 0.4,
-            }}
-          >
-            {product.name}
-          </span>
-
-          <motion.img
-            src={`/products/${product.file}`}
-            alt={product.name}
-            className="relative z-10 object-contain drop-shadow-2xl"
-            style={{ width: '72%', height: '72%', objectFit: 'contain' }}
-            animate={{ scale: hovered ? 1.1 : 1, y: hovered ? -4 : 0 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            draggable={false}
-          />
-
-          {/* Active glow dot */}
-          {isActive && (
-            <motion.div
-              className="absolute top-3 right-3 w-2 h-2 rounded-full z-20"
-              style={{ background: '#8C9F4E', boxShadow: '0 0 10px #8C9F4E, 0 0 20px rgba(140,159,78,0.4)' }}
-              animate={{ scale: [1, 1.3, 1] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-            />
-          )}
-
-          {/* Category badge */}
-          <div
-            className="absolute top-3 left-3 z-20 px-2 py-0.5 rounded-full text-[8px] font-semibold tracking-widest uppercase"
-            style={{
-              background: 'rgba(5,8,5,0.7)',
-              backdropFilter: 'blur(8px)',
-              border: '1px solid rgba(140,159,78,0.15)',
-              color: 'rgba(140,159,78,0.7)',
-            }}
-          >
-            {product.category}
-          </div>
-        </div>
-
-        {/* Bottom info */}
-        <div
-          className="relative px-4 py-3.5"
-          style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}
-        >
-          <div className="flex items-start justify-between gap-2 mb-1.5">
-            <p
-              className="text-[13px] font-semibold leading-tight"
-              style={{ color: isActive ? '#a8c46e' : 'rgba(255,255,255,0.82)' }}
-            >
-              {product.name}
-            </p>
-            <span
-              className="text-[9px] font-mono flex-shrink-0 mt-0.5"
-              style={{ color: 'rgba(140,159,78,0.35)' }}
-            >
-              {String(index + 1).padStart(2, '0')}
-            </span>
-          </div>
-
-          {/* Desc — fades in on hover */}
-          <motion.p
-            className="text-[10px] leading-relaxed"
-            style={{ color: 'rgba(255,255,255,0.38)' }}
-            animate={{ opacity: hovered ? 1 : 0, height: hovered ? 'auto' : 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            {product.desc.split(' ').slice(0, 10).join(' ')}…
-          </motion.p>
-
-          {/* Tags */}
-          <div className="flex gap-1 mt-2">
-            {product.tags.map(t => (
-              <span
-                key={t}
-                className="px-1.5 py-0.5 rounded text-[8px] font-medium"
-                style={{ background: 'rgba(140,159,78,0.08)', color: 'rgba(140,159,78,0.55)', border: '1px solid rgba(140,159,78,0.1)' }}
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Bottom shimmer line */}
+        {/* ── Layer 3: tilt + depth ── */}
         <motion.div
-          className="absolute bottom-0 inset-x-0 h-px"
-          style={{ background: 'linear-gradient(90deg, transparent, #8C9F4E, transparent)' }}
-          animate={{ opacity: hovered || isActive ? 0.6 : 0 }}
-          transition={{ duration: 0.3 }}
-        />
+          style={{
+            rotateX: finalRotX,
+            rotateY: finalRotY,
+            z: dep.z,
+            perspective: 900,
+            transformStyle: 'preserve-3d',
+            willChange: 'transform',
+            borderRadius: 22,
+          }}
+          animate={{ scale: hov ? baseScale * 1.062 : baseScale }}
+          transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+          onMouseMove={onMove}
+          onMouseEnter={onEnter}
+          onMouseLeave={onLeave}
+          onClick={onClick}
+          className="relative cursor-pointer"
+        >
+              {/* Glass shell */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  borderRadius: 22,
+                  background: hov
+                    ? 'linear-gradient(148deg, rgba(24,42,15,0.97) 0%, rgba(13,23,11,0.99) 100%)'
+                    : 'linear-gradient(148deg, rgba(13,21,11,0.88) 0%, rgba(7,13,7,0.93) 100%)',
+                  backdropFilter:       'blur(22px)',
+                  WebkitBackdropFilter: 'blur(22px)',
+                  border: `1px solid ${hov ? 'rgba(140,159,78,0.58)' : 'rgba(140,159,78,0.11)'}`,
+                  boxShadow: hov
+                    ? '0 0 0 1px rgba(140,159,78,0.18), 0 28px 75px rgba(0,0,0,0.68), 0 0 55px rgba(140,159,78,0.07), inset 0 1px 0 rgba(255,255,255,0.08)'
+                    : `0 ${5 + dep.z / 8}px 32px rgba(0,0,0,0.48), inset 0 1px 0 rgba(255,255,255,0.03)`,
+                  transition: 'border-color 0.4s, box-shadow 0.4s, background 0.4s',
+                }}
+              />
+
+              {/* Top gradient border shine */}
+              <div
+                className="absolute top-0 inset-x-5 h-px pointer-events-none"
+                style={{
+                  borderRadius: 1,
+                  background: `linear-gradient(90deg, transparent, rgba(140,159,78,${hov ? 0.95 : 0.28}), transparent)`,
+                  transition: 'opacity 0.4s',
+                }}
+              />
+
+              {/* Dynamic glare */}
+              <motion.div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  borderRadius: 22,
+                  background: `radial-gradient(circle at ${glX} ${glY}, rgba(140,159,78,0.18) 0%, transparent 58%)`,
+                  opacity: hov ? 1 : 0,
+                  transition: 'opacity 0.32s',
+                }}
+              />
+
+              {/* Light sweep on enter */}
+              {swept && (
+                <div
+                  className="absolute inset-0 overflow-hidden pointer-events-none"
+                  style={{ borderRadius: 22, zIndex: 8 }}
+                >
+                  <motion.div
+                    style={{
+                      position: 'absolute',
+                      top: '-15%', left: 0,
+                      width: '38%', height: '130%',
+                      background: 'linear-gradient(108deg, transparent 28%, rgba(255,255,255,0.072) 50%, transparent 72%)',
+                      transform: 'skewX(-14deg)',
+                    }}
+                    initial={{ x: '-90%' }}
+                    animate={{ x: '420%' }}
+                    transition={{ duration: 0.78, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                </div>
+              )}
+
+              {/* Front-card accent line (left) */}
+              {isFront && (
+                <div
+                  className="absolute left-0 top-8 bottom-8 w-0.5"
+                  style={{
+                    borderRadius: 1,
+                    background: 'linear-gradient(180deg, transparent, rgba(140,159,78,0.55), transparent)',
+                  }}
+                />
+              )}
+
+              {/* ── Image zone ── */}
+              <div
+                className="relative flex items-center justify-center overflow-hidden"
+                style={{ height: 192, background: 'rgba(255,255,255,0.008)' }}
+              >
+                {/* Ghost name watermark */}
+                <span
+                  className="absolute inset-0 flex items-center justify-center font-serif font-black select-none pointer-events-none text-center"
+                  style={{
+                    fontSize: 'clamp(20px, 2.6vw, 34px)',
+                    color: `rgba(140,159,78,${hov ? 0.1 : 0.033})`,
+                    letterSpacing: '-0.02em',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    transition: 'color 0.5s',
+                    padding: '0 12px',
+                  }}
+                >
+                  {product.name}
+                </span>
+
+                {/* Ambient light behind product */}
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background: `radial-gradient(ellipse 65% 65% at 50% 68%, rgba(140,159,78,${hov ? 0.14 : 0.04}) 0%, transparent 72%)`,
+                    transition: 'background 0.5s',
+                  }}
+                />
+
+                {/* Product image */}
+                <motion.img
+                  src={`/products/${product.file}`}
+                  alt={product.name}
+                  className="relative z-10 object-contain select-none"
+                  style={{ width: '76%', height: '76%', objectFit: 'contain', pointerEvents: 'none' }}
+                  animate={{
+                    scale: hov ? 1.14 : 1,
+                    y: hov ? -8 : 0,
+                    filter: hov
+                      ? 'drop-shadow(0 20px 38px rgba(0,0,0,0.58)) drop-shadow(0 0 22px rgba(140,159,78,0.2))'
+                      : 'drop-shadow(0 10px 22px rgba(0,0,0,0.52))',
+                  }}
+                  transition={{ duration: 0.46, ease: [0.22, 1, 0.36, 1] }}
+                  draggable={false}
+                />
+
+                {/* Category pill */}
+                <div
+                  className="absolute top-3 left-3 z-20 px-2.5 py-1 rounded-full"
+                  style={{
+                    background:       'rgba(4,6,4,0.82)',
+                    backdropFilter:   'blur(12px)',
+                    border:           '1px solid rgba(140,159,78,0.2)',
+                    fontSize:          7.5,
+                    fontWeight:        700,
+                    letterSpacing:    '0.14em',
+                    textTransform:    'uppercase',
+                    color:            'rgba(140,159,78,0.78)',
+                  }}
+                >
+                  {product.category}
+                </div>
+
+                {/* Index */}
+                <div
+                  className="absolute bottom-2.5 right-3 font-mono z-20"
+                  style={{ fontSize: 9, color: 'rgba(140,159,78,0.28)', letterSpacing: '0.06em' }}
+                >
+                  {String(index + 1).padStart(2, '0')}
+                </div>
+              </div>
+
+              {/* ── Info zone ── */}
+              <div
+                className="relative px-4 pt-3.5 pb-4"
+                style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}
+              >
+                <h3
+                  className="text-[13px] font-semibold leading-tight mb-2"
+                  style={{
+                    color: hov ? '#c8da8e' : 'rgba(255,255,255,0.86)',
+                    transition: 'color 0.3s',
+                  }}
+                >
+                  {product.name}
+                </h3>
+
+                {/* Description — slides in on hover */}
+                <AnimatePresence initial={false}>
+                  {hov && (
+                    <motion.p
+                      key="desc"
+                      initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                      animate={{ opacity: 1, height: 'auto', marginBottom: 10 }}
+                      exit={  { opacity: 0, height: 0,    marginBottom: 0  }}
+                      transition={{ duration: 0.3, ease: 'easeOut' }}
+                      className="overflow-hidden text-[10px] leading-relaxed"
+                      style={{ color: 'rgba(255,255,255,0.42)' }}
+                    >
+                      {product.desc.split(' ').slice(0, 14).join(' ')}…
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+
+                {/* Glowing tag pills */}
+                <div className="flex gap-1.5 flex-wrap mb-3">
+                  {product.tags.map(tag => (
+                    <span
+                      key={tag}
+                      className="px-2 py-0.5 rounded-full text-[8px] font-semibold"
+                      style={{
+                        background:  hov ? 'rgba(140,159,78,0.16)' : 'rgba(140,159,78,0.07)',
+                        color:       hov ? '#b8d07e'               : 'rgba(140,159,78,0.48)',
+                        border:     `1px solid ${hov ? 'rgba(140,159,78,0.35)' : 'rgba(140,159,78,0.1)'}`,
+                        boxShadow:   hov ? '0 0 10px rgba(140,159,78,0.14)' : 'none',
+                        transition: 'all 0.35s',
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* CTA — slides up on hover */}
+                <AnimatePresence initial={false}>
+                  {hov && (
+                    <motion.div
+                      key="cta"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={  { opacity: 0, y: 5 }}
+                      transition={{ duration: 0.24, delay: 0.06 }}
+                    >
+                      <button
+                        className="w-full py-2 rounded-xl text-[9px] font-bold tracking-[0.16em] uppercase"
+                        style={{
+                          background: 'rgba(140,159,78,0.1)',
+                          border:    '1px solid rgba(140,159,78,0.32)',
+                          color:     '#a8c46e',
+                          boxShadow: '0 0 18px rgba(140,159,78,0.09)',
+                        }}
+                      >
+                        Explore Product →
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Bottom shimmer line */}
+              <motion.div
+                className="absolute bottom-0 inset-x-0 h-px pointer-events-none"
+                style={{ background: 'linear-gradient(90deg, transparent, rgba(140,159,78,0.75), transparent)' }}
+                animate={{ opacity: hov ? 1 : 0 }}
+                transition={{ duration: 0.3 }}
+              />
+            </motion.div>
+        </div>
       </motion.div>
-    </motion.div>
+    </div>
   )
 }
 
-/* ─── Full-screen product modal ──────────────────────────────────────────────*/
-function ProductModal({ product, index, total, onClose, onPrev, onNext }: {
+/* ─── Hero expand modal ──────────────────────────────────────────────────── */
+function HeroModal({
+  product, index, total, onClose, onPrev, onNext,
+}: {
   product: Product; index: number; total: number
   onClose: () => void; onPrev: () => void; onNext: () => void
 }) {
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-  const imgX   = useSpring(useTransform(mouseX, [0, 1], [-12, 12]), { stiffness: 80, damping: 20 })
-  const imgY   = useSpring(useTransform(mouseY, [0, 1], [-8, 8]),   { stiffness: 80, damping: 20 })
+  const imgMX = useMotionValue(0.5)
+  const imgMY = useMotionValue(0.5)
+  const dynRotY = useSpring(useTransform(imgMX, [0, 1], [-18, 18]), { stiffness: 70, damping: 18 })
+  const dynRotX = useSpring(useTransform(imgMY, [0, 1], [ 9, -9]), { stiffness: 70, damping: 18 })
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    mouseX.set(e.clientX / window.innerWidth)
-    mouseY.set(e.clientY / window.innerHeight)
+  const onMove = (e: React.MouseEvent) => {
+    imgMX.set(e.clientX / window.innerWidth)
+    imgMY.set(e.clientY / window.innerHeight)
   }
 
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-      if (e.key === 'ArrowLeft') onPrev()
-      if (e.key === 'ArrowRight') onNext()
+    const h = (e: KeyboardEvent) => {
+      if (e.key === 'Escape')      onClose()
+      if (e.key === 'ArrowLeft')   onPrev()
+      if (e.key === 'ArrowRight')  onNext()
     }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
+    window.addEventListener('keydown', h)
+    return () => window.removeEventListener('keydown', h)
   }, [onClose, onPrev, onNext])
+
+  /* staggered detail reveal */
+  const detail = {
+    hidden:  { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1, y: 0,
+      transition: { delay: 0.08 + i * 0.075, duration: 0.48, ease: [0.22, 1, 0.36, 1] },
+    }),
+  }
 
   return (
     <motion.div
-      className="fixed inset-0 z-[9000] flex items-center justify-center"
+      className="fixed inset-0 z-[9000] flex items-center justify-center p-4 md:p-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      onMouseMove={handleMouseMove}
+      exit={  { opacity: 0 }}
+      transition={{ duration: 0.32 }}
+      onMouseMove={onMove}
     >
-      {/* Backdrop */}
+      {/* Blurred backdrop */}
       <motion.div
         className="absolute inset-0 cursor-pointer"
-        style={{ background: 'rgba(3,5,3,0.92)', backdropFilter: 'blur(24px)' }}
+        style={{ background: 'rgba(2,4,2,0.96)', backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)' }}
         onClick={onClose}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        exit={  { opacity: 0 }}
+        transition={{ duration: 0.38 }}
       />
 
-      {/* Modal content */}
+      {/* Modal card */}
       <motion.div
-        className="relative z-10 w-full max-w-5xl mx-6 grid grid-cols-1 md:grid-cols-2 gap-0 overflow-hidden"
-        style={{ borderRadius: 28, border: '1px solid rgba(140,159,78,0.2)', boxShadow: '0 40px 120px rgba(0,0,0,0.7)' }}
-        initial={{ scale: 0.88, y: 40, opacity: 0 }}
-        animate={{ scale: 1, y: 0, opacity: 1 }}
-        exit={{ scale: 0.92, y: 20, opacity: 0 }}
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 w-full max-w-5xl overflow-hidden"
+        style={{
+          borderRadius: 32,
+          border:     '1px solid rgba(140,159,78,0.24)',
+          boxShadow:  '0 55px 150px rgba(0,0,0,0.82), 0 0 90px rgba(140,159,78,0.065)',
+        }}
+        initial={{ scale: 0.82, y: 55, opacity: 0 }}
+        animate={{ scale: 1,    y: 0,  opacity: 1 }}
+        exit={  { scale: 0.88, y: 28,  opacity: 0 }}
+        transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
       >
-        {/* Left — image */}
-        <div
-          className="relative flex items-center justify-center overflow-hidden"
-          style={{ background: 'linear-gradient(145deg, #0c1a0e, #070d08)', minHeight: 380 }}
-        >
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 80% at 50% 50%, rgba(140,159,78,0.08) 0%, transparent 70%)' }} />
+        <div className="grid grid-cols-1 md:grid-cols-2">
 
-          {/* Ghost name */}
-          <span
-            className="absolute inset-0 flex items-center justify-center font-serif font-black select-none pointer-events-none text-center px-4"
-            style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: 'rgba(140,159,78,0.05)', letterSpacing: '-0.03em', lineHeight: 1 }}
-          >
-            {product.name}
-          </span>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={product.file}
-              style={{ x: imgX, y: imgY, width: '75%', height: '75%' } as any}
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="relative z-10 flex items-center justify-center"
-            >
-              <img
-                src={`/products/${product.file}`}
-                alt={product.name}
-                className="w-full h-full object-contain drop-shadow-2xl"
-                draggable={false}
-                style={{ filter: 'drop-shadow(0 20px 60px rgba(0,0,0,0.6))' }}
-              />
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Index */}
+          {/* LEFT — 3D image */}
           <div
-            className="absolute bottom-5 left-5 font-mono text-[10px]"
-            style={{ color: 'rgba(140,159,78,0.4)' }}
+            className="relative flex items-center justify-center overflow-hidden"
+            style={{ background: 'linear-gradient(148deg, #0d2010, #070e08)', minHeight: 420 }}
           >
-            {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
-          </div>
-        </div>
+            {/* Radial ambient glow */}
+            <div
+              className="absolute inset-0"
+              style={{ background: 'radial-gradient(ellipse 72% 72% at 50% 52%, rgba(140,159,78,0.12) 0%, transparent 70%)' }}
+            />
 
-        {/* Right — details */}
-        <div
-          className="relative flex flex-col justify-between p-8 md:p-10"
-          style={{ background: 'linear-gradient(145deg, #080f09, #050805)' }}
-        >
-          {/* Close */}
-          <button
-            onClick={onClose}
-            className="absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110"
-            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)' }}
-          >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
-            </svg>
-          </button>
+            {/* Ghost name */}
+            <span
+              className="absolute inset-0 flex items-center justify-center font-serif font-black select-none pointer-events-none text-center px-8"
+              style={{
+                fontSize: 'clamp(44px, 7vw, 86px)',
+                color: 'rgba(140,159,78,0.038)',
+                letterSpacing: '-0.03em',
+                lineHeight: 1,
+              }}
+            >
+              {product.name}
+            </span>
 
-          <div>
-            {/* Category + tags */}
-            <div className="flex items-center gap-2 mb-5">
-              <span
-                className="px-3 py-1 rounded-full text-[9px] font-semibold tracking-widest uppercase"
-                style={{ background: 'rgba(140,159,78,0.12)', color: '#8C9F4E', border: '1px solid rgba(140,159,78,0.22)' }}
+            {/* Top accent */}
+            <div
+              className="absolute top-0 inset-x-0 h-px"
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(140,159,78,0.55), transparent)' }}
+            />
+
+            {/* Corner shine */}
+            <div
+              className="absolute top-0 right-0 w-36 h-36 pointer-events-none"
+              style={{ background: 'radial-gradient(circle at top right, rgba(140,159,78,0.09) 0%, transparent 60%)' }}
+            />
+
+            {/* 3D rotating product image */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={product.file}
+                className="relative z-10 flex items-center justify-center"
+                style={{
+                  width: '74%', height: '74%',
+                  perspective: 1100,
+                }}
+                initial={{ opacity: 0, scale: 0.78, rotateY: -25 }}
+                animate={{ opacity: 1, scale: 1,    rotateY: 0   }}
+                exit={  { opacity: 0, scale: 0.86,  rotateY: 18  }}
+                transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
               >
-                {product.category}
-              </span>
-              {product.tags.map(t => (
-                <span key={t} className="px-2 py-0.5 rounded text-[9px]"
-                  style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.3)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                  {t}
-                </span>
-              ))}
+                <motion.img
+                  src={`/products/${product.file}`}
+                  alt={product.name}
+                  className="w-full h-full object-contain select-none"
+                  style={{
+                    rotateX: dynRotX,
+                    rotateY: dynRotY,
+                    filter: 'drop-shadow(0 28px 60px rgba(0,0,0,0.68)) drop-shadow(0 0 34px rgba(140,159,78,0.14))',
+                  }}
+                  draggable={false}
+                />
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Progress counter */}
+            <div
+              className="absolute bottom-5 left-6 font-mono"
+              style={{ fontSize: 10, color: 'rgba(140,159,78,0.42)', letterSpacing: '0.14em' }}
+            >
+              {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
             </div>
+
+            {/* Scan line */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.015) 3px, rgba(0,0,0,0.015) 4px)',
+              }}
+            />
+          </div>
+
+          {/* RIGHT — details */}
+          <div
+            className="relative flex flex-col p-8 md:p-10"
+            style={{ background: 'linear-gradient(148deg, #090f0a, #040807)', minHeight: 420 }}
+          >
+            {/* Close */}
+            <button
+              onClick={onClose}
+              className="absolute top-5 right-5 w-9 h-9 flex items-center justify-center rounded-full"
+              style={{
+                background: 'rgba(255,255,255,0.05)',
+                border:     '1px solid rgba(255,255,255,0.1)',
+                color:      'rgba(255,255,255,0.42)',
+                transition: 'all 0.2s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
+              </svg>
+            </button>
 
             <AnimatePresence mode="wait">
               <motion.div
                 key={product.name}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.35 }}
+                className="flex flex-col h-full"
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
               >
-                <h2
-                  className="font-serif font-bold leading-tight mb-4"
-                  style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: 'rgba(255,255,255,0.95)' }}
+                {/* Category + tags */}
+                <motion.div custom={0} variants={detail} className="flex flex-wrap items-center gap-2 mb-6">
+                  <span
+                    className="px-3 py-1 rounded-full text-[9px] font-bold tracking-[0.16em] uppercase"
+                    style={{
+                      background: 'rgba(140,159,78,0.15)',
+                      color:      '#8C9F4E',
+                      border:     '1px solid rgba(140,159,78,0.32)',
+                      boxShadow:  '0 0 22px rgba(140,159,78,0.12)',
+                    }}
+                  >
+                    {product.category}
+                  </span>
+                  {product.tags.map(t => (
+                    <span
+                      key={t}
+                      className="px-2.5 py-0.5 rounded text-[9px]"
+                      style={{
+                        background: 'rgba(255,255,255,0.04)',
+                        color:      'rgba(255,255,255,0.3)',
+                        border:     '1px solid rgba(255,255,255,0.07)',
+                      }}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </motion.div>
+
+                {/* Name */}
+                <motion.h2
+                  custom={1}
+                  variants={detail}
+                  className="font-serif font-bold leading-[1.05] mb-4"
+                  style={{
+                    fontSize: 'clamp(26px, 4vw, 50px)',
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(200,218,142,0.88) 60%, rgba(140,159,78,0.75) 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor:  'transparent',
+                    backgroundClip: 'text',
+                    letterSpacing: '-0.02em',
+                  }}
                 >
                   {product.name}
-                </h2>
-                <p
-                  className="text-sm md:text-base leading-relaxed mb-6"
-                  style={{ color: 'rgba(255,255,255,0.52)', maxWidth: 380 }}
+                </motion.h2>
+
+                {/* Description */}
+                <motion.p
+                  custom={2}
+                  variants={detail}
+                  className="text-sm leading-relaxed mb-8"
+                  style={{ color: 'rgba(255,255,255,0.5)', maxWidth: 380 }}
                 >
                   {product.desc}
-                </p>
+                </motion.p>
+
+                {/* Specs */}
+                <motion.div custom={3} variants={detail} className="flex flex-col mb-8">
+                  {[
+                    { label: 'Origin',        value: product.origin      },
+                    { label: 'Method',        value: 'NFT Hydroponics'   },
+                    { label: 'Pesticides',    value: 'Zero'              },
+                    { label: 'Availability',  value: 'Year-round'        },
+                    { label: 'Certification', value: 'Premium Organic'   },
+                  ].map(({ label, value }) => (
+                    <div
+                      key={label}
+                      className="flex items-center justify-between py-3"
+                      style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+                    >
+                      <span className="text-xs" style={{ color: 'rgba(255,255,255,0.27)' }}>{label}</span>
+                      <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.72)' }}>{value}</span>
+                    </div>
+                  ))}
+                </motion.div>
+
+                {/* Navigation */}
+                <motion.div custom={4} variants={detail} className="flex items-center gap-3 mt-auto">
+                  <button
+                    onClick={onPrev}
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold"
+                    style={{
+                      background: 'rgba(140,159,78,0.1)',
+                      border:     '1px solid rgba(140,159,78,0.24)',
+                      color:      '#8C9F4E',
+                      transition: 'transform 0.2s',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.06)')}
+                    onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+                  >
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    Prev
+                  </button>
+
+                  <button
+                    onClick={onNext}
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold"
+                    style={{
+                      background: 'rgba(140,159,78,0.1)',
+                      border:     '1px solid rgba(140,159,78,0.24)',
+                      color:      '#8C9F4E',
+                      transition: 'transform 0.2s',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.06)')}
+                    onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+                  >
+                    Next
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+
+                  {/* Dot progress */}
+                  <div className="flex items-center gap-1 ml-auto">
+                    {Array.from({ length: Math.min(total, 14) }).map((_, i) => (
+                      <span
+                        key={i}
+                        className="block rounded-full"
+                        style={{
+                          width:      i === index ? 18 : 4,
+                          height:     4,
+                          background: i === index ? '#8C9F4E' : 'rgba(255,255,255,0.1)',
+                          transition: 'all 0.3s',
+                        }}
+                      />
+                    ))}
+                  </div>
+                </motion.div>
               </motion.div>
             </AnimatePresence>
-
-            {/* Spec rows */}
-            <div className="flex flex-col gap-2.5 mb-8">
-              {[
-                { label: 'Origin',     value: product.origin },
-                { label: 'Method',     value: 'NFT Hydroponics' },
-                { label: 'Pesticides', value: 'Zero' },
-                { label: 'Harvest',    value: 'Year-round' },
-              ].map(({ label, value }) => (
-                <div key={label} className="flex items-center justify-between py-2.5"
-                  style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                  <span className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>{label}</span>
-                  <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.72)' }}>{value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Nav */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onPrev}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-all hover:scale-105"
-              style={{ background: 'rgba(140,159,78,0.1)', border: '1px solid rgba(140,159,78,0.2)', color: '#8C9F4E' }}
-            >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              Prev
-            </button>
-            <button
-              onClick={onNext}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-all hover:scale-105"
-              style={{ background: 'rgba(140,159,78,0.1)', border: '1px solid rgba(140,159,78,0.2)', color: '#8C9F4E' }}
-            >
-              Next
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-
-            {/* Dot progress */}
-            <div className="flex items-center gap-1 ml-auto">
-              {Array.from({ length: total }).map((_, i) => (
-                <span key={i} className="block rounded-full transition-all duration-300"
-                  style={{ width: i === index ? 16 : 4, height: 4, background: i === index ? '#8C9F4E' : 'rgba(255,255,255,0.12)' }} />
-              ))}
-            </div>
           </div>
         </div>
       </motion.div>
@@ -446,113 +753,182 @@ function ProductModal({ product, index, total, onClose, onPrev, onNext }: {
   )
 }
 
-/* ─── Main export ────────────────────────────────────────────────────────────*/
+/* ─── Main export ────────────────────────────────────────────────────────── */
 export default function ProductShowcase() {
-  const [activeCategory, setActiveCategory] = useState('All')
-  const [modalIndex, setModalIndex] = useState<number | null>(null)
+  const [activeCat,   setActiveCat]   = useState('All')
+  const [modalIndex,  setModalIndex]  = useState<number | null>(null)
   const sectionRef = useRef<HTMLElement>(null)
-  const inView = useInView(sectionRef, { once: true, margin: '-80px' })
+  const inView     = useInView(sectionRef, { once: true, margin: '-100px' })
 
-  const filtered = activeCategory === 'All'
-    ? PRODUCTS
-    : PRODUCTS.filter(p => p.category === activeCategory)
+  const filtered = activeCat === 'All' ? PRODUCTS : PRODUCTS.filter(p => p.category === activeCat)
 
   const openModal  = (i: number) => setModalIndex(i)
-  const closeModal = () => setModalIndex(null)
-  const prevModal  = () => setModalIndex(i => i !== null ? (i - 1 + filtered.length) % filtered.length : 0)
-  const nextModal  = () => setModalIndex(i => i !== null ? (i + 1) % filtered.length : 0)
+  const closeModal = ()           => setModalIndex(null)
+  const prevModal  = ()           => setModalIndex(i => i !== null ? (i - 1 + filtered.length) % filtered.length : 0)
+  const nextModal  = ()           => setModalIndex(i => i !== null ? (i + 1)                   % filtered.length : 0)
 
   return (
-    <section ref={sectionRef} className="relative w-full" style={{ background: '#050805', minHeight: '100vh' }}>
-      <CursorSpotlight />
+    <section
+      ref={sectionRef}
+      className="relative w-full overflow-hidden"
+      style={{ background: '#050805', minHeight: '100vh' }}
+    >
+      <CursorGlow />
+      <ParticleField />
 
-      {/* Top accent */}
-      <div className="absolute top-0 inset-x-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(140,159,78,0.3), transparent)' }} />
+      {/* Ambient layers */}
+      <div className="absolute top-0  inset-x-0 h-px pointer-events-none"  style={{ background: 'linear-gradient(90deg, transparent, rgba(140,159,78,0.38), transparent)' }} />
+      <div className="absolute bottom-0 inset-x-0 h-px pointer-events-none" style={{ background: 'linear-gradient(90deg, transparent, rgba(140,159,78,0.14), transparent)' }} />
+      <div className="absolute inset-0 pointer-events-none"                  style={{ background: 'radial-gradient(ellipse 55% 28% at 50% 0%, rgba(140,159,78,0.065) 0%, transparent 55%)' }} />
+      <div className="absolute left-0  top-1/3  w-80 h-80 pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(140,159,78,0.028) 0%, transparent 70%)' }} />
+      <div className="absolute right-0 bottom-1/4 w-80 h-80 pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(140,159,78,0.022) 0%, transparent 70%)' }} />
 
-      {/* Ambient glow */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 80% 40% at 50% 0%, rgba(140,159,78,0.04) 0%, transparent 60%)' }} />
+      <div className="max-w-[1440px] mx-auto px-5 md:px-10 lg:px-16 py-18 md:py-24">
 
-      <div className="max-w-[1400px] mx-auto px-5 md:px-10 lg:px-16 py-16 md:py-20">
+        {/* ── Section header ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-14"
+        >
+          <div className="flex items-start justify-between flex-wrap gap-8">
+            <div>
+              <div className="flex items-center gap-3 mb-5">
+                <div className="h-px w-8" style={{ background: 'rgba(140,159,78,0.65)' }} />
+                <span className="text-[10px] font-bold tracking-[0.24em] uppercase" style={{ color: 'rgba(140,159,78,0.72)' }}>
+                  Vertical Farm Collection
+                </span>
+              </div>
+
+              <h2
+                className="font-serif font-bold leading-[0.92] mb-4"
+                style={{
+                  fontSize: 'clamp(40px, 5.8vw, 76px)',
+                  background: 'linear-gradient(138deg, rgba(255,255,255,0.96) 0%, rgba(200,218,142,0.84) 50%, rgba(140,159,78,0.68) 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor:  'transparent',
+                  backgroundClip: 'text',
+                  letterSpacing: '-0.035em',
+                }}
+              >
+                Living<br />Greens
+              </h2>
+
+              <p className="text-sm leading-relaxed max-w-[280px]" style={{ color: 'rgba(255,255,255,0.36)' }}>
+                Precision-grown in climate-controlled vertical farms. Harvested at peak freshness with zero compromise.
+              </p>
+            </div>
+
+            {/* Stats */}
+            <div className="flex gap-8 items-end pb-1">
+              {[
+                { n: '14+', l: 'Varieties'  },
+                { n: '0',   l: 'Pesticides' },
+                { n: '365', l: 'Days/Year'  },
+              ].map(({ n, l }) => (
+                <div key={l} className="text-right">
+                  <div
+                    className="font-serif font-bold leading-none mb-1"
+                    style={{ fontSize: 'clamp(24px, 3.2vw, 40px)', color: 'rgba(168,196,110,0.88)' }}
+                  >
+                    {n}
+                  </div>
+                  <div className="text-[9px] tracking-[0.16em] uppercase" style={{ color: 'rgba(255,255,255,0.22)' }}>
+                    {l}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
 
         {/* ── Category filter ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="flex items-center gap-2 mb-10 flex-wrap"
+          transition={{ duration: 0.65, delay: 0.2 }}
+          className="flex items-center gap-2 mb-11 flex-wrap"
         >
           {CATEGORIES.map(cat => (
             <button
               key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className="relative px-5 py-2 rounded-full text-[12px] font-medium tracking-wide transition-all duration-300"
+              onClick={() => setActiveCat(cat)}
+              className="relative px-5 py-2 rounded-full text-[11px] font-semibold tracking-wide"
               style={{
-                background:   cat === activeCategory ? 'rgba(140,159,78,0.18)' : 'rgba(255,255,255,0.04)',
-                border:       `1px solid ${cat === activeCategory ? 'rgba(140,159,78,0.5)' : 'rgba(255,255,255,0.08)'}`,
-                color:        cat === activeCategory ? '#a8c46e' : 'rgba(255,255,255,0.4)',
-                boxShadow:    cat === activeCategory ? '0 0 20px rgba(140,159,78,0.12)' : 'none',
+                background:  cat === activeCat ? 'rgba(140,159,78,0.16)' : 'rgba(255,255,255,0.04)',
+                border:     `1px solid ${cat === activeCat ? 'rgba(140,159,78,0.48)' : 'rgba(255,255,255,0.07)'}`,
+                color:       cat === activeCat ? '#c8da8e'               : 'rgba(255,255,255,0.36)',
+                boxShadow:   cat === activeCat ? '0 0 26px rgba(140,159,78,0.13)' : 'none',
+                transition:  'all 0.3s',
               }}
             >
               {cat}
               {cat !== 'All' && (
-                <span className="ml-1.5 text-[9px]" style={{ color: 'rgba(140,159,78,0.5)' }}>
+                <span className="ml-1.5 text-[9px]" style={{ color: 'rgba(140,159,78,0.45)' }}>
                   {PRODUCTS.filter(p => p.category === cat).length}
                 </span>
               )}
             </button>
           ))}
 
-          {/* Count */}
-          <span className="ml-auto text-[11px] font-mono" style={{ color: 'rgba(255,255,255,0.2)' }}>
-            {filtered.length} items
-          </span>
+          <div className="ml-auto flex items-center gap-2.5">
+            <div className="h-px w-5" style={{ background: 'rgba(140,159,78,0.28)' }} />
+            <span className="font-mono text-[10px]" style={{ color: 'rgba(255,255,255,0.17)' }}>
+              {filtered.length} items
+            </span>
+          </div>
         </motion.div>
 
-        {/* ── Product grid ── */}
+        {/* ── 3D depth product grid ── */}
+        <div style={{ perspective: '1100px', perspectiveOrigin: '50% 38%' }}>
+          <motion.div
+            layout
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5"
+          >
+            <AnimatePresence mode="popLayout">
+              {filtered.map((p, i) => (
+                <motion.div
+                  key={p.file}
+                  layout
+                  initial={{ opacity: 0, scale: 0.86 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={  { opacity: 0, scale: 0.82 }}
+                  transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <ProductCard
+                    product={p}
+                    index={PRODUCTS.indexOf(p)}
+                    depthIdx={i}
+                    anyOpen={modalIndex !== null}
+                    thisOpen={modalIndex === i}
+                    onClick={() => openModal(i)}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        </div>
+
+        {/* ── Footer hint ── */}
         <motion.div
-          layout
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4"
-        >
-          <AnimatePresence mode="popLayout">
-            {filtered.map((p, i) => (
-              <motion.div
-                key={p.file}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.85 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <TiltCard
-                  product={p}
-                  index={PRODUCTS.indexOf(p)}
-                  isActive={modalIndex === i}
-                  onClick={() => openModal(i)}
-                />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* ── Bottom hint ── */}
-        <motion.p
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.8 }}
-          className="text-center mt-12 text-[11px] tracking-widest uppercase"
-          style={{ color: 'rgba(255,255,255,0.15)' }}
+          transition={{ delay: 1.1 }}
+          className="flex items-center justify-center gap-5 mt-16"
         >
-          Click any product to explore · Use ← → keys to navigate
-        </motion.p>
+          <div className="h-px flex-1 max-w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(140,159,78,0.22))' }} />
+          <p className="text-[10px] tracking-[0.22em] uppercase" style={{ color: 'rgba(255,255,255,0.13)' }}>
+            Click to explore · ← → keys to navigate
+          </p>
+          <div className="h-px flex-1 max-w-20" style={{ background: 'linear-gradient(90deg, rgba(140,159,78,0.22), transparent)' }} />
+        </motion.div>
       </div>
 
-      {/* Bottom accent */}
-      <div className="absolute bottom-0 inset-x-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(140,159,78,0.15), transparent)' }} />
-
-      {/* ── Modal ── */}
+      {/* ── Hero modal ── */}
       <AnimatePresence>
         {modalIndex !== null && (
-          <ProductModal
+          <HeroModal
             product={filtered[modalIndex]}
             index={modalIndex}
             total={filtered.length}

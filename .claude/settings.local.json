@@ -21,7 +21,30 @@
       "Bash(curl -s -o /dev/null -w \"/ → %{http_code}\\\\n/products → \" http://localhost:3000)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/products)",
       "Bash(curl -s -o /dev/null -w \"/ %{http_code}  /products %{http_code}\" \"http://localhost:3000\" \"http://localhost:3000/products\")",
-      "Bash(curl -s -o /dev/null -w \"/ %{http_code} | /technology %{http_code}\\\\n\" http://localhost:3000 http://localhost:3000/technology)"
+      "Bash(curl -s -o /dev/null -w \"/ %{http_code} | /technology %{http_code}\\\\n\" http://localhost:3000 http://localhost:3000/technology)",
+      "Bash(xargs grep *)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:3002/products)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} %{time_total}s\" http://localhost:3002/)",
+      "Bash(curl -s http://localhost:3002/)",
+      "Bash(curl -s http://localhost:3004/)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code} in %{time_total}s\" http://localhost:3004/)",
+      "Bash(curl -s -o /dev/null -w \"Home:    HTTP %{http_code} in %{time_total}s\\\\n\" http://localhost:3004/)",
+      "Bash(curl -s -o /dev/null -w \"Products: HTTP %{http_code} in %{time_total}s\\\\n\" http://localhost:3004/products)",
+      "Bash(curl -s -o /dev/null -w \"Home:  HTTP %{http_code}\\\\n\" http://localhost:3004/)",
+      "Bash(curl -s -o /dev/null -w \"About: HTTP %{http_code}\\\\n\" http://localhost:3004/about)",
+      "Bash(curl -s -o /dev/null -w \"Contact: HTTP %{http_code}\\\\n\" http://localhost:3004/contact)",
+      "Bash(curl -s http://localhost:3004/contact)",
+      "Bash(rm -rf .next)",
+      "Bash(curl -s -o /dev/null -w \"Contact: HTTP %{http_code}\\\\n\" http://localhost:3006/contact)",
+      "Bash(curl -s -o /dev/null -w \"Home:    HTTP %{http_code}\\\\n\" http://localhost:3006/)",
+      "Bash(curl -s -o /dev/null -w \"Home:     HTTP %{http_code}\\\\n\" http://localhost:3006/)",
+      "Bash(curl -s -o /dev/null -w \"About:    HTTP %{http_code}\\\\n\" http://localhost:3006/about)",
+      "Bash(curl -s -o /dev/null -w \"Products: HTTP %{http_code}\\\\n\" http://localhost:3006/products)",
+      "Bash(curl -s -o /dev/null -w \"Contact:  HTTP %{http_code}\\\\n\" http://localhost:3006/contact)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3007)",
+      "Bash(curl -s http://localhost:3007)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3008)"
     ]
   }
 }
