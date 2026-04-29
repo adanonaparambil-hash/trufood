@@ -30,66 +30,34 @@ function HeroSection() {
   const scl = useTransform(scrollYProgress, [0, 1], [1, 1.08])
 
   return (
-    <div ref={ref} className="relative w-full overflow-hidden" style={{ height: '92vh', minHeight: '580px' }}>
-      {/* Parallax image */}
+    <div ref={ref} className="relative w-full overflow-hidden" style={{ height: '92vh', minHeight: '500px' }}>
       <motion.div className="absolute inset-0" style={{ y, scale: scl }}>
-        <img
-          src="/about-4.jpeg"
-          alt="Trufud vertical farm"
-          className="w-full h-full object-cover object-center"
-          draggable={false}
-        />
+        <img src="/about-4.jpeg" alt="Trufud vertical farm" className="w-full h-full object-cover object-center" draggable={false} />
       </motion.div>
-
-      {/* Gradient overlays */}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, rgba(5,8,5,0.82) 0%, rgba(5,8,5,0.4) 55%, rgba(5,8,5,0.7) 100%)' }} />
-      <div className="absolute inset-x-0 bottom-0 h-56" style={{ background: 'linear-gradient(to top, #050805 0%, transparent 100%)' }} />
-      <div className="absolute inset-x-0 top-0 h-36" style={{ background: 'linear-gradient(to bottom, rgba(5,8,5,0.6) 0%, transparent 100%)' }} />
-
-      {/* Content */}
-      <motion.div
-        style={{ opacity: op }}
-        className="relative z-10 h-full flex flex-col justify-end pb-24 px-8 md:px-16 max-w-[1400px] mx-auto"
-      >
-        {/* Eyebrow */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
-          className="mb-6"
-        >
-          <span
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-semibold tracking-[0.28em] uppercase"
-            style={{ background: 'rgba(140,159,78,0.12)', color: '#8C9F4E', border: '1px solid rgba(140,159,78,0.25)' }}
-          >
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, rgba(17,26,18,0.82) 0%, rgba(17,26,18,0.4) 55%, rgba(17,26,18,0.7) 100%)' }} />
+      <div className="absolute inset-x-0 bottom-0 h-56" style={{ background: 'linear-gradient(to top, #111a12 0%, transparent 100%)' }} />
+      <div className="absolute inset-x-0 top-0 h-36" style={{ background: 'linear-gradient(to bottom, rgba(17,26,18,0.6) 0%, transparent 100%)' }} />
+      <motion.div style={{ opacity: op }}
+        className="relative z-10 h-full flex flex-col justify-end pb-16 md:pb-24 px-5 sm:px-8 md:px-16 max-w-[1400px] mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }} className="mb-4 md:mb-6">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-semibold tracking-[0.28em] uppercase"
+            style={{ background: 'rgba(140,159,78,0.12)', color: '#8C9F4E', border: '1px solid rgba(140,159,78,0.25)' }}>
             <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#8C9F4E' }} />
             Our Story
           </span>
         </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
-          className="font-serif font-bold leading-[0.96] mb-6"
-          style={{ fontSize: 'clamp(52px, 8vw, 110px)', color: 'rgba(255,255,255,0.95)' }}
-        >
-          About<br />
-          <span style={{ color: '#8C9F4E', fontStyle: 'italic' }}>Us.</span>
+        <motion.h1 initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+          className="font-serif font-bold leading-[0.96] mb-4 md:mb-6"
+          style={{ fontSize: 'clamp(40px, 8vw, 110px)', color: 'rgba(255,255,255,0.95)' }}>
+          About<br /><span style={{ color: '#8C9F4E', fontStyle: 'italic' }}>Us.</span>
         </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4 }}
-          className="text-base md:text-lg max-w-[520px] leading-relaxed"
-          style={{ color: 'rgba(255,255,255,0.55)' }}
-        >
+        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4 }}
+          className="text-sm md:text-base lg:text-lg max-w-[520px] leading-relaxed"
+          style={{ color: 'rgba(255,255,255,0.55)' }}>
           Born in 2021, Trufud Trading SPC is rewriting the rules of food production in Oman — one precision-grown harvest at a time.
         </motion.p>
-
-        {/* Scroll cue */}
-        <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }}
-          className="flex items-center gap-3 mt-10"
-        >
-          <motion.div
-            animate={{ y: [0, 6, 0] }} transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
-          >
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }} className="flex items-center gap-3 mt-8 md:mt-10">
+          <motion.div animate={{ y: [0, 6, 0] }} transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(140,159,78,0.7)" strokeWidth="2">
               <path d="M12 5v14M5 13l7 7 7-7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -187,15 +155,15 @@ export default function AboutPage() {
   const [activeSection, setActiveSection] = useState('about-trufud')
 
   return (
-    <main style={{ background: '#050805', minHeight: '100vh' }}>
+    <main style={{ background: '#111a12', minHeight: '100vh' }}>
       <Navbar activePage="About Us" />
 
       {/* ── Hero ── */}
       <HeroSection />
 
       {/* ── Body — sidebar + content ── */}
-      <div className="max-w-[1320px] mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-32">
-        <div className="grid grid-cols-1 xl:grid-cols-[180px_1fr] gap-16 xl:gap-24">
+      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 md:px-12 lg:px-16 py-16 md:py-24 lg:py-32">
+        <div className="grid grid-cols-1 xl:grid-cols-[180px_1fr] gap-10 xl:gap-24">
 
           {/* Left — sticky nav */}
           <SideNav active={activeSection} />
@@ -259,8 +227,8 @@ export default function AboutPage() {
                     <motion.div
                       initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.6, duration: 0.6 }}
-                      className="absolute -left-6 top-12 flex items-center gap-2.5 px-4 py-3 rounded-2xl"
-                      style={{ background: '#0d1a0a', border: '1px solid rgba(140,159,78,0.25)', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}
+                      className="absolute -left-6 top-12 hidden sm:flex items-center gap-2.5 px-4 py-3 rounded-2xl"
+                      style={{ background: '#1a2e1c', border: '1px solid rgba(140,159,78,0.25)', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}
                     >
                       <span className="flex items-center justify-center w-8 h-8 rounded-full text-base" style={{ background: 'rgba(140,159,78,0.15)' }}>🌱</span>
                       <div>
@@ -293,7 +261,7 @@ export default function AboutPage() {
                 {/* Full-width image */}
                 <div className="relative w-full overflow-hidden" style={{ borderRadius: '24px', aspectRatio: '16/7', border: '1px solid rgba(140,159,78,0.1)' }}>
                   <img src="/about-3.jpeg" alt="Our farm facility" className="w-full h-full object-cover" draggable={false} />
-                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(5,8,5,0.7) 0%, transparent 50%)' }} />
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(17,26,18,0.7) 0%, transparent 50%)' }} />
                   <div className="absolute inset-0 flex items-center px-10 md:px-16">
                     <div className="max-w-[400px]">
                       <p className="font-serif text-2xl md:text-3xl font-bold leading-snug mb-3" style={{ color: 'rgba(255,255,255,0.93)' }}>
@@ -327,7 +295,7 @@ export default function AboutPage() {
                       viewport={{ once: true }}
                       transition={{ delay: i * 0.08, duration: 0.6 }}
                       className="flex flex-col p-6 md:p-8"
-                      style={{ background: '#070d07' }}
+                      style={{ background: '#172019' }}
                     >
                       <span className="text-2xl md:text-3xl font-black font-serif mb-2 tracking-tight" style={{ color: '#8C9F4E' }}>{value}</span>
                       <span className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.42)' }}>{label}</span>
@@ -363,13 +331,13 @@ export default function AboutPage() {
                     whileHover={{ y: -4 }}
                     transition={{ duration: 0.35 }}
                     className="relative overflow-hidden rounded-[20px] p-8 flex flex-col justify-between gap-8"
-                    style={{ background: 'linear-gradient(145deg, #0d180d 0%, #070d07 100%)', border: '1px solid rgba(140,159,78,0.15)', minHeight: '380px' }}
+                    style={{ background: 'linear-gradient(145deg, #1a2e1c 0%, #172019 100%)', border: '1px solid rgba(140,159,78,0.15)', minHeight: '380px' }}
                   >
                     {/* Background image */}
                     <div className="absolute inset-0 opacity-20">
                       <img src="/about-4.jpeg" alt="" className="w-full h-full object-cover" draggable={false} />
                     </div>
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(7,13,7,0.4) 0%, rgba(7,13,7,0.85) 100%)' }} />
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(17,26,18,0.4) 0%, rgba(17,26,18,0.85) 100%)' }} />
 
                     <div className="relative z-10">
                       <div
@@ -406,12 +374,12 @@ export default function AboutPage() {
                     whileHover={{ y: -4 }}
                     transition={{ duration: 0.35 }}
                     className="relative overflow-hidden rounded-[20px] p-8 flex flex-col justify-between gap-8"
-                    style={{ background: 'linear-gradient(145deg, #0a1510 0%, #070d07 100%)', border: '1px solid rgba(140,159,78,0.15)', minHeight: '380px' }}
+                    style={{ background: 'linear-gradient(145deg, #172a1e 0%, #172019 100%)', border: '1px solid rgba(140,159,78,0.15)', minHeight: '380px' }}
                   >
                     <div className="absolute inset-0 opacity-15">
                       <img src="/about-2.jpeg" alt="" className="w-full h-full object-cover" draggable={false} />
                     </div>
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(7,13,7,0.4) 0%, rgba(7,13,7,0.88) 100%)' }} />
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(17,26,18,0.4) 0%, rgba(17,26,18,0.88) 100%)' }} />
 
                     <div className="relative z-10">
                       <div
@@ -467,12 +435,12 @@ export default function AboutPage() {
       <VideoShowcase />
 
       {/* ── Sustainable farming ribbon ── */}
-      <section className="relative py-28 overflow-hidden" style={{ background: '#030603' }}>
+      <section className="relative py-16 md:py-28 overflow-hidden" style={{ background: '#111a12' }}>
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 60% 70% at 50% 50%, rgba(140,159,78,0.06) 0%, transparent 70%)' }} />
         <div className="absolute top-0 inset-x-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(140,159,78,0.2), transparent)' }} />
 
-        <div className="max-w-[1320px] mx-auto px-6 md:px-12 lg:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 md:px-12 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
             <div>
               <Chip label="Sustainable Farming" />

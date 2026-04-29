@@ -110,7 +110,7 @@ function Loader({ pct }: { pct: number }) {
 
   return (
     <motion.div
-      className="absolute inset-0 flex flex-col items-center justify-center bg-[#050505] z-50"
+      className="absolute inset-0 flex flex-col items-center justify-center bg-[#111a12] z-50"
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
     >
@@ -310,7 +310,7 @@ export default function HydroScroll() {
     <div
       ref={containerRef}
       className="relative h-[400vh]"
-      style={{ background: '#050505' }}
+      style={{ background: '#111a12' }}
     >
       {/* ── Sticky viewport ── */}
       <div className="sticky top-0 w-full h-screen overflow-hidden scanline">
@@ -319,7 +319,7 @@ export default function HydroScroll() {
         <canvas
           ref={canvasRef}
           className="absolute inset-0 w-full h-full"
-          style={{ background: '#050505' }}
+          style={{ background: '#111a12' }}
         />
 
         {/* Radial vignette — darkens edges, keeps subject pop */}
@@ -327,7 +327,7 @@ export default function HydroScroll() {
           className="absolute inset-0 pointer-events-none z-10"
           style={{
             background:
-              'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 35%, #050505 100%)',
+              'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 35%, #111a12 100%)',
           }}
         />
 
@@ -335,7 +335,7 @@ export default function HydroScroll() {
         <div
           className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none z-10"
           style={{
-            background: 'linear-gradient(to bottom, transparent, #050505)',
+            background: 'linear-gradient(to bottom, transparent, #111a12)',
           }}
         />
 

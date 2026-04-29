@@ -18,10 +18,17 @@ export const metadata: Metadata = {
   title: 'Trufud — Growing the Future of Food',
   description:
     'Vertical hydroponic farming systems powered by precision and innovation. Less land. Less water. More yield.',
+  icons: {
+    icon: [
+      { url: '/favicon.png', type: 'image/png' },
+    ],
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
 }
 
 export const viewport: Viewport = {
-  themeColor: '#050705',
+  themeColor: '#111a12',
 }
 
 export default function RootLayout({

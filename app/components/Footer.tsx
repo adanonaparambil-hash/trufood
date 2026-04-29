@@ -62,7 +62,7 @@ export default function Footer() {
       <footer
         className="relative overflow-hidden"
         style={{
-          background: 'linear-gradient(180deg, rgba(5,8,5,0) 0%, #050805 6%)',
+          background: 'linear-gradient(180deg, rgba(17,26,18,0) 0%, #111a12 6%)',
           borderTop: '1px solid rgba(140,159,78,0.18)',
         }}
       >
@@ -70,7 +70,7 @@ export default function Footer() {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: 'rgba(5,10,5,0.82)',
+            background: 'rgba(17,26,18,0.88)',
             backdropFilter: 'blur(32px)',
             WebkitBackdropFilter: 'blur(32px)',
           }}
@@ -88,14 +88,14 @@ export default function Footer() {
           style={{ background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(140,159,78,0.07) 0%, transparent 65%)' }}
         />
 
-        <div className="relative z-10 max-w-[1320px] mx-auto px-8 pt-16 pb-10">
+        <div className="relative z-10 max-w-[1320px] mx-auto px-5 sm:px-8 pt-12 md:pt-16 pb-8 md:pb-10">
 
           {/* ── Top grid ── */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-14">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-8 md:gap-12 mb-10 md:mb-14">
 
             {/* Brand block */}
             <motion.div
-              className="md:col-span-4"
+              className="sm:col-span-2 md:col-span-4"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

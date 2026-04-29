@@ -72,7 +72,7 @@ function ProductCarousel() {
   return (
     <div className="relative flex flex-col items-center w-full">
       {/* Card stage */}
-      <div className="relative w-full max-w-[440px] mx-auto" style={{ height: '480px' }}>
+      <div className="relative w-full max-w-[380px] sm:max-w-[440px] mx-auto" style={{ height: '380px', minHeight: '320px' }}>
 
         {/* Ambient glow that changes colour per product */}
         <motion.div
@@ -96,7 +96,7 @@ function ProductCarousel() {
             <div
               className="relative w-full h-full flex flex-col items-center justify-center rounded-[28px] overflow-hidden"
               style={{
-                background: 'linear-gradient(145deg, #0f1f14 0%, #091209 100%)',
+                background: 'linear-gradient(145deg, #1a2e1c 0%, #111a12 100%)',
                 border: `1px solid ${product.accentColor}30`,
                 boxShadow: `0 40px 100px rgba(0,0,0,0.5), 0 0 60px ${product.accentColor}12`,
               }}
@@ -123,7 +123,7 @@ function ProductCarousel() {
                 src={product.img}
                 alt={product.name}
                 className="w-4/5 object-contain drop-shadow-2xl"
-                style={{ maxHeight: '280px' }}
+                style={{ maxHeight: '220px' }}
                 animate={{ y: [0, -8, 0] }}
                 transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
                 draggable={false}
@@ -240,11 +240,11 @@ function LeftContent({ inView }: { inView: boolean }) {
       </motion.div>
 
       {/* Heading */}
-      <motion.h2 variants={fadeUp} className="font-serif leading-tight mb-6">
-        <span className="block text-4xl md:text-5xl lg:text-6xl font-bold" style={{ color: 'rgba(255,255,255,0.92)' }}>
+      <motion.h2 variants={fadeUp} className="font-serif leading-tight mb-4 md:mb-6">
+        <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold" style={{ color: 'rgba(255,255,255,0.92)' }}>
           Packed with
         </span>
-        <span className="block text-4xl md:text-5xl lg:text-6xl font-bold italic" style={{ color: '#00c47a' }}>
+        <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold italic" style={{ color: '#00c47a' }}>
           Goodness
         </span>
       </motion.h2>
@@ -266,7 +266,7 @@ function LeftContent({ inView }: { inView: boolean }) {
       </motion.div>
 
       {/* Attributes */}
-      <motion.div variants={fadeUp} className="grid grid-cols-3 gap-3 mb-8">
+      <motion.div variants={fadeUp} className="grid grid-cols-3 gap-2 md:gap-3 mb-6 md:mb-8">
         {[
           { icon: '🌿', label: 'Hydroponics' },
           { icon: '✅', label: 'Ready-to-Eat' },
@@ -317,7 +317,7 @@ export default function ProductsSection() {
     <section
       ref={ref}
       className="relative w-full overflow-hidden"
-      style={{ background: '#040d07' }}
+      style={{ background: '#111a12' }}
     >
       {/* Top divider */}
       <div className="absolute top-0 inset-x-0 h-px"
@@ -336,7 +336,7 @@ export default function ProductsSection() {
       <div className="absolute inset-0 pointer-events-none"
         style={{ background: 'radial-gradient(ellipse 80% 60% at 20% 50%, rgba(0,100,60,0.08) 0%, transparent 70%)' }} />
 
-      <div className="max-w-[1320px] mx-auto px-6 md:px-12 lg:px-16 py-28 md:py-36">
+      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 md:px-12 lg:px-16 py-16 md:py-28 lg:py-36">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 
           {/* Left */}

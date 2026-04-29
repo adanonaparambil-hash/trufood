@@ -203,8 +203,8 @@ function ProductCard({
                 style={{
                   borderRadius: 22,
                   background: hov
-                    ? 'linear-gradient(148deg, rgba(24,42,15,0.97) 0%, rgba(13,23,11,0.99) 100%)'
-                    : 'linear-gradient(148deg, rgba(13,21,11,0.88) 0%, rgba(7,13,7,0.93) 100%)',
+                    ? 'linear-gradient(148deg, rgba(30,52,20,0.97) 0%, rgba(20,32,18,0.99) 100%)'
+                    : 'linear-gradient(148deg, rgba(20,30,18,0.88) 0%, rgba(15,22,14,0.93) 100%)',
                   backdropFilter:       'blur(22px)',
                   WebkitBackdropFilter: 'blur(22px)',
                   border: `1px solid ${hov ? 'rgba(140,159,78,0.58)' : 'rgba(140,159,78,0.11)'}`,
@@ -319,7 +319,7 @@ function ProductCard({
                 <div
                   className="absolute top-3 left-3 z-20 px-2.5 py-1 rounded-full"
                   style={{
-                    background:       'rgba(4,6,4,0.82)',
+                    background:       'rgba(17,26,15,0.88)',
                     backdropFilter:   'blur(12px)',
                     border:           '1px solid rgba(140,159,78,0.2)',
                     fontSize:          7.5,
@@ -480,7 +480,7 @@ function HeroModal({
       {/* Blurred backdrop */}
       <motion.div
         className="absolute inset-0 cursor-pointer"
-        style={{ background: 'rgba(2,4,2,0.96)', backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)' }}
+        style={{ background: 'rgba(17,26,18,0.96)', backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)' }}
         onClick={onClose}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -490,11 +490,12 @@ function HeroModal({
 
       {/* Modal card */}
       <motion.div
-        className="relative z-10 w-full max-w-5xl overflow-hidden"
+        className="relative z-10 w-full max-w-5xl overflow-hidden overflow-y-auto"
         style={{
-          borderRadius: 32,
+          borderRadius: 24,
           border:     '1px solid rgba(140,159,78,0.24)',
           boxShadow:  '0 55px 150px rgba(0,0,0,0.82), 0 0 90px rgba(140,159,78,0.065)',
+          maxHeight: '90vh',
         }}
         initial={{ scale: 0.82, y: 55, opacity: 0 }}
         animate={{ scale: 1,    y: 0,  opacity: 1 }}
@@ -506,7 +507,7 @@ function HeroModal({
           {/* LEFT — 3D image */}
           <div
             className="relative flex items-center justify-center overflow-hidden"
-            style={{ background: 'linear-gradient(148deg, #0d2010, #070e08)', minHeight: 420 }}
+            style={{ background: 'linear-gradient(148deg, #1a3020, #111a12)', minHeight: 260, maxHeight: 420 }}
           >
             {/* Radial ambient glow */}
             <div
@@ -587,7 +588,7 @@ function HeroModal({
           {/* RIGHT — details */}
           <div
             className="relative flex flex-col p-8 md:p-10"
-            style={{ background: 'linear-gradient(148deg, #090f0a, #040807)', minHeight: 420 }}
+            style={{ background: 'linear-gradient(148deg, #172019, #111a12)', minHeight: 300 }}
           >
             {/* Close */}
             <button
@@ -615,33 +616,7 @@ function HeroModal({
                 animate="visible"
                 exit="hidden"
               >
-                {/* Category + tags */}
-                <motion.div custom={0} variants={detail} className="flex flex-wrap items-center gap-2 mb-6">
-                  <span
-                    className="px-3 py-1 rounded-full text-[9px] font-bold tracking-[0.16em] uppercase"
-                    style={{
-                      background: 'rgba(140,159,78,0.15)',
-                      color:      '#8C9F4E',
-                      border:     '1px solid rgba(140,159,78,0.32)',
-                      boxShadow:  '0 0 22px rgba(140,159,78,0.12)',
-                    }}
-                  >
-                    {product.category}
-                  </span>
-                  {product.tags.map(t => (
-                    <span
-                      key={t}
-                      className="px-2.5 py-0.5 rounded text-[9px]"
-                      style={{
-                        background: 'rgba(255,255,255,0.04)',
-                        color:      'rgba(255,255,255,0.3)',
-                        border:     '1px solid rgba(255,255,255,0.07)',
-                      }}
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </motion.div>
+                {/* Category + tags — hidden in modal header */}
 
                 {/* Name */}
                 <motion.h2
@@ -771,7 +746,7 @@ export default function ProductShowcase() {
     <section
       ref={sectionRef}
       className="relative w-full overflow-hidden"
-      style={{ background: '#050805', minHeight: '100vh' }}
+      style={{ background: '#111a12', minHeight: '100vh' }}
     >
       <CursorGlow />
       <ParticleField />
@@ -783,16 +758,16 @@ export default function ProductShowcase() {
       <div className="absolute left-0  top-1/3  w-80 h-80 pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(140,159,78,0.028) 0%, transparent 70%)' }} />
       <div className="absolute right-0 bottom-1/4 w-80 h-80 pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(140,159,78,0.022) 0%, transparent 70%)' }} />
 
-      <div className="max-w-[1440px] mx-auto px-5 md:px-10 lg:px-16 py-18 md:py-24">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-5 md:px-10 lg:px-16 py-14 md:py-24">
 
         {/* ── Section header ── */}
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-14"
+          className="mb-8 md:mb-14"
         >
-          <div className="flex items-start justify-between flex-wrap gap-8">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 sm:gap-8">
             <div>
               <div className="flex items-center gap-3 mb-5">
                 <div className="h-px w-8" style={{ background: 'rgba(140,159,78,0.65)' }} />
@@ -848,7 +823,8 @@ export default function ProductShowcase() {
           initial={{ opacity: 0, y: 18 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.65, delay: 0.2 }}
-          className="flex items-center gap-2 mb-11 flex-wrap"
+          className="flex items-center gap-2 mb-8 md:mb-11 overflow-x-auto pb-2 scrollbar-none"
+          style={{ WebkitOverflowScrolling: 'touch' }}
         >
           {CATEGORIES.map(cat => (
             <button
@@ -884,7 +860,7 @@ export default function ProductShowcase() {
         <div style={{ perspective: '1100px', perspectiveOrigin: '50% 38%' }}>
           <motion.div
             layout
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4 lg:gap-5"
           >
             <AnimatePresence mode="popLayout">
               {filtered.map((p, i) => (

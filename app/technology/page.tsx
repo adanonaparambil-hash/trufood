@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion'
 import Link from 'next/link'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -92,8 +92,101 @@ function BloomLEDs({ visible }: { visible: boolean }) {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   SPATIAL TOOLTIP
+   MOBILE CARD CAROUSEL — shows one card at a time on small screens
 ───────────────────────────────────────────────────────────────────────────── */
+const TECH_CARDS = [
+  {
+    title: 'Easy to Use',
+    body: 'Our automated water and fertilizer system integrates seamlessly with the water supply, providing intelligent control over irrigation.',
+    bullets: ['Automated scheduling for water supply', 'Precise control of fertilizer concentration', 'Efficient water usage'],
+  },
+  {
+    title: 'Configurable Spacing',
+    body: 'The automated system allows for flexible spacing configurations, ensuring optimal growth conditions for every crop type.',
+    bullets: ['Pumps for water and fertilizer delivery', 'Adjustable fertilizer absorption ratios'],
+  },
+  {
+    title: 'Adjustable Water Level',
+    body: 'Our NFT system offers gravity-driven water circulation, adjustable between shallow and deep flow for precision control.',
+    bullets: ['Automated tidal irrigation control', 'Scheduled and manual irrigation options', 'Energy-efficient LED lighting with automatic control'],
+  },
+]
+
+function MobileCardCarousel({ visible }: { visible: boolean }) {
+  const [active, setActive] = useState(0)
+
+  // Auto-advance every 3.5s when visible
+  useEffect(() => {
+    if (!visible) return
+    const t = setTimeout(() => setActive(i => (i + 1) % TECH_CARDS.length), 3500)
+    return () => clearTimeout(t)
+  }, [active, visible])
+
+  const card = TECH_CARDS[active]
+
+  return (
+    <motion.div
+      className="absolute inset-x-0 bottom-16 z-30 flex flex-col items-center px-4 lg:hidden"
+      initial={{ opacity: 0, y: 20 }}
+      animate={visible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {/* Card */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={active}
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -30 }}
+          transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full max-w-sm"
+          style={{
+            background: 'rgba(17,26,18,0.92)',
+            backdropFilter: 'blur(24px)',
+            border: '1px solid rgba(140,159,78,0.28)',
+            borderRadius: 20,
+            padding: '20px 22px',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.6)',
+          }}
+        >
+          <div className="flex items-center gap-2.5 mb-3">
+            <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: '#8C9F4E', boxShadow: '0 0 8px #8C9F4E' }} />
+            <h4 className="text-[14px] font-bold tracking-wide" style={{ color: '#8C9F4E' }}>{card.title}</h4>
+          </div>
+          <p className="text-[12px] leading-[1.7] mb-3" style={{ color: 'rgba(255,255,255,0.78)' }}>{card.body}</p>
+          <div className="h-px mb-3" style={{ background: 'rgba(140,159,78,0.2)' }} />
+          <ul className="flex flex-col gap-1.5">
+            {card.bullets.map(b => (
+              <li key={b} className="flex items-start gap-2">
+                <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: 'rgba(140,159,78,0.6)' }} />
+                <span className="text-[11px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.52)' }}>{b}</span>
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Dot indicators */}
+      <div className="flex items-center gap-2 mt-4">
+        {TECH_CARDS.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActive(i)}
+            className="transition-all duration-300"
+            style={{
+              width: i === active ? 20 : 6,
+              height: 6,
+              borderRadius: 999,
+              background: i === active ? '#8C9F4E' : 'rgba(255,255,255,0.2)',
+            }}
+            aria-label={`Card ${i + 1}`}
+          />
+        ))}
+      </div>
+    </motion.div>
+  )
+}
+
 /* ─────────────────────────────────────────────────────────────────────────────
    MAIN PAGE
 ───────────────────────────────────────────────────────────────────────────── */
@@ -163,7 +256,7 @@ export default function TechnologyPage() {
 
   return (
     <>
-    <div ref={wrapperRef} style={{ height: '600vh', background: '#050805' }}>
+    <div ref={wrapperRef} style={{ height: '600vh', background: '#111a12' }}>
       <NoiseOverlay />
       <ChromaticAberration intensity={chromaIntensity} />
       <Navbar activePage="Technology" />
@@ -184,7 +277,7 @@ export default function TechnologyPage() {
           />
           {/* Depth-of-field blur on edges */}
           <div className="absolute inset-0" style={{
-            background: 'radial-gradient(ellipse 55% 55% at 50% 50%, transparent 30%, rgba(5,8,5,0.5) 100%)',
+            background: 'radial-gradient(ellipse 55% 55% at 50% 50%, transparent 30%, rgba(17,26,18,0.5) 100%)',
           }} />
         </motion.div>
 
@@ -205,15 +298,15 @@ export default function TechnologyPage() {
         {/* ── GLOBAL OVERLAYS ── */}
         {/* Top vignette */}
         <div className="absolute inset-x-0 top-0 h-40 pointer-events-none z-20"
-          style={{ background: 'linear-gradient(to bottom, rgba(5,8,5,0.75), transparent)' }} />
+          style={{ background: 'linear-gradient(to bottom, rgba(17,26,18,0.75), transparent)' }} />
         {/* Bottom vignette */}
         <div className="absolute inset-x-0 bottom-0 h-48 pointer-events-none z-20"
-          style={{ background: 'linear-gradient(to top, #050805, transparent)' }} />
+          style={{ background: 'linear-gradient(to top, #111a12, transparent)' }} />
         {/* Side vignettes */}
         <div className="absolute inset-y-0 left-0 w-32 pointer-events-none z-20"
-          style={{ background: 'linear-gradient(to right, rgba(5,8,5,0.6), transparent)' }} />
+          style={{ background: 'linear-gradient(to right, rgba(17,26,18,0.6), transparent)' }} />
         <div className="absolute inset-y-0 right-0 w-32 pointer-events-none z-20"
-          style={{ background: 'linear-gradient(to left, rgba(5,8,5,0.6), transparent)' }} />
+          style={{ background: 'linear-gradient(to left, rgba(17,26,18,0.6), transparent)' }} />
 
         {/* ── SECTION 1 TEXT: "Our Technology" ── */}
         <motion.div
@@ -255,44 +348,45 @@ export default function TechnologyPage() {
         {/* ── SECTION 2 TEXT: "Vertical Hydroponic Modules" (left-third) ── */}
         <motion.div
           style={{ opacity: s2Opacity, y: s2Y }}
-          className="absolute inset-y-0 left-0 z-30 pointer-events-none flex flex-col justify-center px-10 md:px-16"
+          className="absolute inset-y-0 left-0 z-30 pointer-events-none flex flex-col justify-center px-4 md:px-10 lg:px-16"
         >
           <div
             style={{
               maxWidth: 480,
-              background: 'rgba(5,8,5,0.55)',
+              background: 'rgba(17,26,18,0.65)',
               backdropFilter: 'blur(20px)',
               borderRadius: 24,
               border: '1px solid rgba(140,159,78,0.12)',
-              padding: '36px 40px',
+              padding: '24px 22px',
             }}
+            className="md:p-10"
           >
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[9px] font-semibold tracking-[0.28em] uppercase mb-5"
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[9px] font-semibold tracking-[0.28em] uppercase mb-4"
               style={{ background: 'rgba(140,159,78,0.1)', color: '#8C9F4E', border: '1px solid rgba(140,159,78,0.2)' }}>
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#8C9F4E' }} />
               System Design
             </span>
             <h2
-              className="font-serif font-bold leading-tight mb-5"
-              style={{ fontSize: 'clamp(32px, 4vw, 58px)', color: 'rgba(255,255,255,0.97)' }}
+              className="font-serif font-bold leading-tight mb-4"
+              style={{ fontSize: 'clamp(24px, 4vw, 58px)', color: 'rgba(255,255,255,0.97)' }}
             >
               Vertical<br />Hydroponic<br />
               <span style={{ color: '#8C9F4E', fontStyle: 'italic' }}>Modules</span>
             </h2>
-            <p className="text-base md:text-lg leading-relaxed mb-7" style={{ color: 'rgba(255,255,255,0.82)' }}>
+            <p className="text-sm md:text-base leading-relaxed mb-5" style={{ color: 'rgba(255,255,255,0.82)' }}>
               Our vertical hydroponic modules are designed for fast assembly, ease of use, and versatility. Utilizing specialized light recipes and NFT hybrid irrigation modes, they are perfect for efficient vertical farming.
             </p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2 md:gap-3">
               {[
                 { val: 'NFT', label: 'Hybrid irrigation' },
                 { val: 'LED', label: 'Light recipes' },
                 { val: 'Fast', label: 'Assembly time' },
                 { val: '365', label: 'Days of operation' },
               ].map(({ val, label }) => (
-                <div key={val} className="p-3.5 rounded-xl"
+                <div key={val} className="p-2.5 md:p-3.5 rounded-xl"
                   style={{ background: 'rgba(140,159,78,0.09)', border: '1px solid rgba(140,159,78,0.18)' }}>
-                  <p className="font-serif text-xl font-black mb-0.5" style={{ color: '#8C9F4E' }}>{val}</p>
-                  <p className="text-[11px]" style={{ color: 'rgba(255,255,255,0.55)' }}>{label}</p>
+                  <p className="font-serif text-lg md:text-xl font-black mb-0.5" style={{ color: '#8C9F4E' }}>{val}</p>
+                  <p className="text-[10px] md:text-[11px]" style={{ color: 'rgba(255,255,255,0.55)' }}>{label}</p>
                 </div>
               ))}
             </div>
@@ -301,15 +395,16 @@ export default function TechnologyPage() {
 
         {/* ── SECTION 3: Three floating info cards ── */}
 
+        {/* Desktop: absolute positioned cards */}
         {/* Card 1 — top left */}
         <motion.div
-          className="absolute z-30 pointer-events-none"
+          className="absolute z-30 pointer-events-none hidden lg:block"
           style={{ top: '12%', left: '4%', width: 300 }}
           initial={{ opacity: 0, x: -20 }}
           animate={sec3Active ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
           transition={{ duration: 0.6, delay: 0, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div style={{ background: 'rgba(4,8,4,0.85)', backdropFilter: 'blur(24px)', border: '1px solid rgba(140,159,78,0.28)', borderRadius: 20, padding: '24px 28px', boxShadow: '0 24px 64px rgba(0,0,0,0.65)' }}>
+          <div style={{ background: 'rgba(17,26,18,0.90)', backdropFilter: 'blur(24px)', border: '1px solid rgba(140,159,78,0.28)', borderRadius: 20, padding: '24px 28px', boxShadow: '0 24px 64px rgba(0,0,0,0.65)' }}>
             <div className="flex items-center gap-2.5 mb-3">
               <span className="w-2 h-2 rounded-full" style={{ background: '#8C9F4E', boxShadow: '0 0 8px #8C9F4E' }} />
               <h4 className="text-[15px] font-bold tracking-wide" style={{ color: '#8C9F4E' }}>Easy to Use</h4>
@@ -331,13 +426,13 @@ export default function TechnologyPage() {
 
         {/* Card 2 — top right */}
         <motion.div
-          className="absolute z-30 pointer-events-none"
+          className="absolute z-30 pointer-events-none hidden lg:block"
           style={{ top: '10%', right: '4%', width: 300 }}
           initial={{ opacity: 0, x: 20 }}
           animate={sec3Active ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
           transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div style={{ background: 'rgba(4,8,4,0.85)', backdropFilter: 'blur(24px)', border: '1px solid rgba(140,159,78,0.28)', borderRadius: 20, padding: '24px 28px', boxShadow: '0 24px 64px rgba(0,0,0,0.65)' }}>
+          <div style={{ background: 'rgba(17,26,18,0.90)', backdropFilter: 'blur(24px)', border: '1px solid rgba(140,159,78,0.28)', borderRadius: 20, padding: '24px 28px', boxShadow: '0 24px 64px rgba(0,0,0,0.65)' }}>
             <div className="flex items-center gap-2.5 mb-3">
               <span className="w-2 h-2 rounded-full" style={{ background: '#8C9F4E', boxShadow: '0 0 8px #8C9F4E' }} />
               <h4 className="text-[15px] font-bold tracking-wide" style={{ color: '#8C9F4E' }}>Configurable Spacing</h4>
@@ -359,13 +454,13 @@ export default function TechnologyPage() {
 
         {/* Card 3 — bottom center-right */}
         <motion.div
-          className="absolute z-30 pointer-events-none"
+          className="absolute z-30 pointer-events-none hidden lg:block"
           style={{ bottom: '10%', right: '4%', width: 300 }}
           initial={{ opacity: 0, y: 20 }}
           animate={sec3Active ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div style={{ background: 'rgba(4,8,4,0.85)', backdropFilter: 'blur(24px)', border: '1px solid rgba(140,159,78,0.28)', borderRadius: 20, padding: '24px 28px', boxShadow: '0 24px 64px rgba(0,0,0,0.65)' }}>
+          <div style={{ background: 'rgba(17,26,18,0.90)', backdropFilter: 'blur(24px)', border: '1px solid rgba(140,159,78,0.28)', borderRadius: 20, padding: '24px 28px', boxShadow: '0 24px 64px rgba(0,0,0,0.65)' }}>
             <div className="flex items-center gap-2.5 mb-3">
               <span className="w-2 h-2 rounded-full" style={{ background: '#8C9F4E', boxShadow: '0 0 8px #8C9F4E' }} />
               <h4 className="text-[15px] font-bold tracking-wide" style={{ color: '#8C9F4E' }}>Adjustable Water Level</h4>
@@ -384,6 +479,9 @@ export default function TechnologyPage() {
             </ul>
           </div>
         </motion.div>
+
+        {/* Mobile/Tablet: one-at-a-time card carousel */}
+        <MobileCardCarousel visible={sec3Active} />
 
         {/* ── SECTION 4: Footer ── */}
         <motion.div

@@ -29,12 +29,12 @@ export default function Navbar({ activePage }: { activePage?: string }) {
     <header
       className="fixed top-0 inset-x-0 z-[9995] transition-all duration-500"
       style={{
-        background: scrolled ? 'rgba(8,11,8,0.92)' : 'transparent',
+        background: scrolled ? 'rgba(17,26,18,0.95)' : 'transparent',
         backdropFilter: scrolled ? 'blur(20px)' : 'none',
         borderBottom: scrolled ? '1px solid rgba(255,255,255,0.07)' : 'none',
       }}
     >
-      <nav className="max-w-[1400px] mx-auto px-10 h-[88px] flex items-center justify-between gap-10">
+      <nav className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-10 h-[72px] md:h-[88px] flex items-center justify-between gap-4 md:gap-10">
 
         {/* Logo */}
         <Link href="/" className="flex-shrink-0 flex items-center gap-3 group">
@@ -112,9 +112,9 @@ export default function Navbar({ activePage }: { activePage?: string }) {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.22 }}
             className="lg:hidden overflow-hidden"
-            style={{ background: 'rgba(6,10,6,0.98)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}
+            style={{ background: 'rgba(15,22,15,0.98)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}
           >
-            <div className="px-10 py-7 flex flex-col gap-6">
+            <div className="px-5 sm:px-10 py-6 flex flex-col gap-5">
               {NAV_LINKS.map((l) => (
                 <Link
                   key={l}

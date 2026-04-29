@@ -157,91 +157,86 @@ function Field({
 }) {
   const [focused, setFocused] = useState(false)
   const floatLabel = focused || value.length > 0
-
-  const Tag = rows ? 'textarea' : 'input'
+  const isTextarea = !!rows
 
   return (
-    <div className="relative">
-      {/* Label */}
-      <motion.label
-        animate={{
-          y:        floatLabel ? -24 : 0,
-          scale:    floatLabel ? 0.82 : 1,
-          color:    floatLabel ? (error ? '#ef4444' : '#8C9F4E') : 'rgba(255,255,255,0.35)',
+    <div className="relative pt-5">
+      {/* Floating label */}
+      <label
+        className="absolute left-4 text-sm font-medium pointer-events-none origin-left transition-all duration-200"
+        style={{
+          top: floatLabel ? '2px' : '18px',
+          fontSize: floatLabel ? '10px' : '14px',
+          color: floatLabel
+            ? error ? '#ef4444' : '#8C9F4E'
+            : 'rgba(255,255,255,0.4)',
+          letterSpacing: floatLabel ? '0.06em' : '0',
+          zIndex: 3,
         }}
-        transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute left-4 top-4 text-sm font-medium pointer-events-none origin-left"
-        style={{ zIndex: 2 }}
       >
         {label}{required && ' *'}
-      </motion.label>
+      </label>
 
-      {/* Input shell */}
-      <div className="relative">
-        <Tag
-          type={type}
-          value={value}
+      {/* The actual input / textarea */}
+      {isTextarea ? (
+        <textarea
           rows={rows}
+          value={value}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           onChange={e => onChange(e.target.value)}
-          className="w-full bg-transparent text-sm font-medium outline-none resize-none"
+          className="relative w-full bg-transparent text-sm font-medium outline-none resize-none"
           style={{
-            padding: rows ? '20px 16px 14px' : '20px 16px 10px',
+            position: 'relative',
+            zIndex: 2,
+            padding: '18px 16px 12px',
             color: 'rgba(255,255,255,0.88)',
-            minHeight: rows ? 120 : 'auto',
             caretColor: '#8C9F4E',
-          }}
-        />
-
-        {/* Animated border */}
-        <div
-          className="absolute inset-0 rounded-2xl pointer-events-none"
-          style={{
-            border: `1px solid ${
-              error   ? 'rgba(239,68,68,0.45)' :
-              focused ? 'rgba(140,159,78,0.55)' :
-                        'rgba(255,255,255,0.09)'
-            }`,
+            minHeight: 120,
+            borderRadius: 16,
+            border: `1px solid ${error ? 'rgba(239,68,68,0.5)' : focused ? 'rgba(140,159,78,0.6)' : 'rgba(255,255,255,0.1)'}`,
             background: focused
-              ? 'linear-gradient(145deg, rgba(20,36,14,0.9), rgba(12,20,10,0.95))'
-              : 'linear-gradient(145deg, rgba(12,18,10,0.7), rgba(7,11,7,0.8))',
+              ? 'rgba(24,40,20,0.85)'
+              : 'rgba(17,26,15,0.7)',
             boxShadow: focused
-              ? `0 0 0 1px ${error ? 'rgba(239,68,68,0.2)' : 'rgba(140,159,78,0.15)'}, 0 8px 32px rgba(0,0,0,0.35)`
-              : '0 4px 20px rgba(0,0,0,0.25)',
-            backdropFilter: 'blur(12px)',
-            transition: 'border-color 0.3s, box-shadow 0.3s, background 0.3s',
+              ? `0 0 0 1px ${error ? 'rgba(239,68,68,0.2)' : 'rgba(140,159,78,0.15)'}`
+              : 'none',
+            transition: 'border-color 0.25s, background 0.25s, box-shadow 0.25s',
           }}
         />
+      ) : (
+        <input
+          type={type}
+          value={value}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          onChange={e => onChange(e.target.value)}
+          className="relative w-full bg-transparent text-sm font-medium outline-none"
+          style={{
+            position: 'relative',
+            zIndex: 2,
+            padding: '18px 16px 10px',
+            color: 'rgba(255,255,255,0.88)',
+            caretColor: '#8C9F4E',
+            borderRadius: 16,
+            border: `1px solid ${error ? 'rgba(239,68,68,0.5)' : focused ? 'rgba(140,159,78,0.6)' : 'rgba(255,255,255,0.1)'}`,
+            background: focused
+              ? 'rgba(24,40,20,0.85)'
+              : 'rgba(17,26,15,0.7)',
+            boxShadow: focused
+              ? `0 0 0 1px ${error ? 'rgba(239,68,68,0.2)' : 'rgba(140,159,78,0.15)'}`
+              : 'none',
+            transition: 'border-color 0.25s, background 0.25s, box-shadow 0.25s',
+          }}
+        />
+      )}
 
-        {/* Focus sweep */}
-        {focused && (
-          <motion.div
-            className="absolute top-0 inset-x-4 h-px rounded-full pointer-events-none"
-            style={{ background: 'linear-gradient(90deg, transparent, rgba(140,159,78,0.7), transparent)' }}
-            initial={{ scaleX: 0, opacity: 0 }}
-            animate={{ scaleX: 1, opacity: 1 }}
-            exit={{ scaleX: 0, opacity: 0 }}
-            transition={{ duration: 0.35 }}
-          />
-        )}
-      </div>
-
-      {/* Error */}
-      <AnimatePresence>
-        {error && (
-          <motion.p
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.2 }}
-            className="text-[11px] mt-1.5 ml-1"
-            style={{ color: '#ef4444' }}
-          >
-            {error}
-          </motion.p>
-        )}
-      </AnimatePresence>
+      {/* Error message */}
+      {error && (
+        <p className="text-[11px] mt-1.5 ml-1" style={{ color: '#ef4444' }}>
+          {error}
+        </p>
+      )}
     </div>
   )
 }
@@ -258,8 +253,8 @@ function InfoCard({ icon, label, value, href }: { icon: React.ReactNode; label: 
       className="relative flex items-center gap-4 p-5 rounded-2xl overflow-hidden cursor-pointer"
       style={{
         background: hov
-          ? 'linear-gradient(145deg, rgba(22,40,14,0.95), rgba(13,23,11,0.98))'
-          : 'linear-gradient(145deg, rgba(12,20,10,0.8), rgba(7,13,7,0.88))',
+          ? 'linear-gradient(145deg, rgba(26,44,20,0.96), rgba(18,30,16,0.98))'
+          : 'linear-gradient(145deg, rgba(17,28,15,0.85), rgba(15,22,13,0.90))',
         border: `1px solid ${hov ? 'rgba(140,159,78,0.5)' : 'rgba(140,159,78,0.12)'}`,
         boxShadow: hov
           ? '0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(140,159,78,0.07)'
@@ -424,6 +419,7 @@ export default function ContactPage() {
   const [errors, setErrors] = useState<Partial<typeof form>>({})
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   const set = (k: keyof typeof form) => (v: string) => {
     setForm(f => ({ ...f, [k]: v }))
@@ -442,16 +438,35 @@ export default function ContactPage() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!validate()) return
+    setSubmitError('')
     setLoading(true)
-    await new Promise(r => setTimeout(r, 1800)) // simulate API
-    setLoading(false)
-    setSent(true)
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+
+      const data = (await res.json()) as { ok?: boolean; message?: string }
+      if (!res.ok || !data.ok) {
+        setSubmitError(data.message || 'Unable to send your message right now. Please try again.')
+        return
+      }
+
+      setSent(true)
+    } catch {
+      setSubmitError('Unable to send your message right now. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const reset = () => {
     setSent(false)
     setForm({ name: '', phone: '', email: '', note: '' })
     setErrors({})
+    setSubmitError('')
   }
 
   /* Inject keyframe for orbs into head */
@@ -477,7 +492,7 @@ export default function ContactPage() {
   })
 
   return (
-    <main style={{ background: '#050805', minHeight: '100vh' }}>
+    <main style={{ background: '#111a12', minHeight: '100vh' }}>
       <Navbar activePage="Contact" />
 
       <section ref={sectionRef} className="relative w-full overflow-hidden" style={{ minHeight: '100vh' }}>
@@ -488,31 +503,27 @@ export default function ContactPage() {
         <div className="absolute top-0 inset-x-0 h-px"
           style={{ background: 'linear-gradient(90deg, transparent, rgba(140,159,78,0.3), transparent)' }} />
 
-        <div className="max-w-[1380px] mx-auto px-6 md:px-12 lg:px-16 pt-36 pb-24">
+        <div className="max-w-[1380px] mx-auto px-4 sm:px-6 md:px-12 lg:px-16 pt-28 md:pt-36 pb-16 md:pb-24">
 
-          {/* ── Page header ── */}
-          <motion.div {...staggerItem(0)} className="mb-16 max-w-xl">
-            <div className="flex items-center gap-3 mb-5">
+          <motion.div {...staggerItem(0)} className="mb-10 md:mb-16 max-w-xl">
+            <div className="flex items-center gap-3 mb-4 md:mb-5">
               <div className="h-px w-8" style={{ background: 'rgba(140,159,78,0.65)' }} />
-              <span className="text-[10px] font-bold tracking-[0.26em] uppercase"
-                style={{ color: 'rgba(140,159,78,0.72)' }}>
+              <span className="text-[10px] font-bold tracking-[0.26em] uppercase" style={{ color: 'rgba(140,159,78,0.72)' }}>
                 Get In Touch
               </span>
             </div>
-            <h1
-              className="font-serif font-bold leading-[0.92] mb-5"
+            <h1 className="font-serif font-bold leading-[0.92] mb-4 md:mb-5"
               style={{
-                fontSize: 'clamp(48px, 7vw, 96px)',
+                fontSize: 'clamp(36px, 7vw, 96px)',
                 background: 'linear-gradient(138deg, rgba(255,255,255,0.96) 0%, rgba(200,218,142,0.84) 50%, rgba(140,159,78,0.65) 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
                 letterSpacing: '-0.035em',
-              }}
-            >
+              }}>
               Let&apos;s<br />Talk.
             </h1>
-            <p className="text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.38)' }}>
+            <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.38)' }}>
               Ready to grow with us? Reach out and our team will respond within 24 hours.
             </p>
           </motion.div>
@@ -530,7 +541,6 @@ export default function ContactPage() {
                   rotateX: rotX,
                   rotateY: rotY,
                   perspective: 1000,
-                  transformStyle: 'preserve-3d',
                 }}
                 className="relative rounded-[28px] overflow-hidden"
               >
@@ -538,7 +548,7 @@ export default function ContactPage() {
                 <div
                   className="absolute inset-0"
                   style={{
-                    background: 'linear-gradient(148deg, rgba(14,26,12,0.92) 0%, rgba(8,14,8,0.96) 100%)',
+                    background: 'linear-gradient(148deg, rgba(18,30,16,0.93) 0%, rgba(15,22,13,0.97) 100%)',
                     backdropFilter: 'blur(24px)',
                     WebkitBackdropFilter: 'blur(24px)',
                     border: '1px solid rgba(140,159,78,0.16)',
@@ -559,7 +569,7 @@ export default function ContactPage() {
                 <div className="absolute top-0 inset-x-8 h-px"
                   style={{ background: 'linear-gradient(90deg, transparent, rgba(140,159,78,0.6), transparent)' }} />
 
-                <div className="relative p-8 md:p-10">
+                <div className="relative p-5 sm:p-8 md:p-10">
                   {/* Form header */}
                   <div className="flex items-center gap-3 mb-8">
                     <div className="w-8 h-8 rounded-xl flex items-center justify-center"
@@ -676,9 +686,16 @@ export default function ContactPage() {
                         </motion.button>
 
                         {/* Privacy note */}
-                        <p className="text-center text-[10px]" style={{ color: 'rgba(255,255,255,0.2)' }}>
-                          Your information is kept private and never shared.
-                        </p>
+                        <div className="text-center">
+                          <p className="text-[10px]" style={{ color: 'rgba(255,255,255,0.2)' }}>
+                            Your information is kept private and never shared.
+                          </p>
+                          {submitError && (
+                            <p className="mt-2 text-[11px]" style={{ color: '#ef4444' }}>
+                              {submitError}
+                            </p>
+                          )}
+                        </div>
                       </motion.form>
                     )}
                   </AnimatePresence>

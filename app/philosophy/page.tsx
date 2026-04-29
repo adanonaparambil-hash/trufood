@@ -48,12 +48,12 @@ function Hero() {
       </motion.div>
 
       {/* Overlays */}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, rgba(3,6,3,0.88) 0%, rgba(3,6,3,0.45) 55%, rgba(3,6,3,0.72) 100%)' }} />
-      <div className="absolute inset-x-0 bottom-0 h-64" style={{ background: 'linear-gradient(to top, #040804 0%, transparent 100%)' }} />
-      <div className="absolute inset-x-0 top-0 h-40" style={{ background: 'linear-gradient(to bottom, rgba(3,6,3,0.65) 0%, transparent 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, rgba(17,26,18,0.88) 0%, rgba(17,26,18,0.45) 55%, rgba(17,26,18,0.72) 100%)' }} />
+      <div className="absolute inset-x-0 bottom-0 h-64" style={{ background: 'linear-gradient(to top, #111a12 0%, transparent 100%)' }} />
+      <div className="absolute inset-x-0 top-0 h-40" style={{ background: 'linear-gradient(to bottom, rgba(17,26,18,0.65) 0%, transparent 100%)' }} />
 
       <motion.div style={{ opacity: op }}
-        className="relative z-10 h-full flex flex-col justify-end pb-28 px-8 md:px-16 max-w-[1400px] mx-auto">
+        className="relative z-10 h-full flex flex-col justify-end pb-16 md:pb-28 px-5 sm:px-8 md:px-16 max-w-[1400px] mx-auto">
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }} className="mb-6">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-semibold tracking-[0.28em] uppercase"
@@ -66,8 +66,8 @@ function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="font-serif font-bold leading-[0.94] mb-6"
-          style={{ fontSize: 'clamp(56px, 9vw, 120px)', color: 'rgba(255,255,255,0.96)' }}>
+        className="font-serif font-bold leading-[0.94] mb-4 md:mb-6"
+          style={{ fontSize: 'clamp(40px, 9vw, 120px)', color: 'rgba(255,255,255,0.96)' }}>
           Our<br />
           <span style={{ color: '#8C9F4E', fontStyle: 'italic' }}>Philosophy.</span>
         </motion.h1>
@@ -187,9 +187,9 @@ function Manifesto() {
       <motion.div className="absolute inset-0" style={{ y, scale: scl }}>
         <img src="/philosophy-2.jpeg" alt="Sustainable farming" className="w-full h-full object-cover object-center" draggable={false} />
       </motion.div>
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(3,6,3,0.92) 0%, rgba(3,6,3,0.6) 50%, rgba(3,6,3,0.85) 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(17,26,18,0.92) 0%, rgba(17,26,18,0.6) 50%, rgba(17,26,18,0.85) 100%)' }} />
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-8 md:px-16 py-28 md:py-36 flex flex-col md:flex-row items-center gap-16">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-8 md:px-16 py-16 md:py-28 lg:py-36 flex flex-col md:flex-row items-start md:items-center gap-10 md:gap-16">
 
         {/* Left — big quote */}
         <motion.div
@@ -231,7 +231,7 @@ function Manifesto() {
               initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
               className="p-7 rounded-2xl"
-              style={{ background: 'rgba(5,10,5,0.65)', backdropFilter: 'blur(20px)', border: '1px solid rgba(140,159,78,0.15)' }}>
+              style={{ background: 'rgba(17,26,18,0.75)', backdropFilter: 'blur(20px)', border: '1px solid rgba(140,159,78,0.15)' }}>
               <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-3" style={{ color: '#8C9F4E' }}>{label}</p>
               <p className="text-[15px] leading-[1.75]" style={{ color: 'rgba(255,255,255,0.72)' }}>{text}</p>
             </motion.div>
@@ -251,8 +251,8 @@ function StatsBar() {
     { val: '365', label: 'Days of harvest' },
   ]
   return (
-    <div className="relative" style={{ background: '#030603', borderTop: '1px solid rgba(140,159,78,0.1)', borderBottom: '1px solid rgba(140,159,78,0.1)' }}>
-      <div className="max-w-[1400px] mx-auto px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-px overflow-hidden" style={{ borderRadius: 0 }}>
+    <div className="relative" style={{ background: '#111a12', borderTop: '1px solid rgba(140,159,78,0.1)', borderBottom: '1px solid rgba(140,159,78,0.1)' }}>
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 py-8 md:py-12 grid grid-cols-2 md:grid-cols-4 gap-px overflow-hidden" style={{ borderRadius: 0 }}>
         {stats.map(({ val, label }, i) => (
           <motion.div key={label}
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
@@ -271,15 +271,15 @@ function StatsBar() {
 /* ─── Page ───────────────────────────────────────────────────────────────────*/
 export default function PhilosophyPage() {
   return (
-    <main style={{ background: '#040804', minHeight: '100vh' }}>
+    <main style={{ background: '#111a12', minHeight: '100vh' }}>
       <Navbar activePage="Our Philosophy" />
       <Hero />
       <StatsBar />
 
       {/* Pillars grid */}
-      <section className="relative" style={{ background: '#040804' }}>
+      <section className="relative" style={{ background: '#111a12' }}>
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 0%, rgba(140,159,78,0.04) 0%, transparent 60%)' }} />
-        <div className="max-w-[1400px] mx-auto px-8 md:px-12 lg:px-16 py-24 md:py-32">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 py-16 md:py-24 lg:py-32">
 
           <motion.div
             initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }}
@@ -307,13 +307,13 @@ export default function PhilosophyPage() {
       <Manifesto />
 
       {/* Footer CTA */}
-      <section className="relative py-28" style={{ background: '#030603' }}>
+      <section className="relative py-16 md:py-28" style={{ background: '#111a12' }}>
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 50% 60% at 50% 50%, rgba(140,159,78,0.05) 0%, transparent 70%)' }} />
         <div className="absolute top-0 inset-x-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(140,159,78,0.2), transparent)' }} />
         <motion.div
           initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="relative z-10 max-w-[700px] mx-auto px-8 text-center"
+          className="relative z-10 max-w-[700px] mx-auto px-4 sm:px-8 text-center"
         >
           <h2 className="font-serif font-bold leading-tight mb-6"
             style={{ fontSize: 'clamp(32px, 5vw, 60px)', color: 'rgba(255,255,255,0.95)' }}>

@@ -97,7 +97,7 @@ export default function AboutSection() {
     <section
       ref={ref}
       className="relative w-full overflow-hidden"
-      style={{ background: '#06100a' }}
+      style={{ background: '#172019' }}
     >
       {/* Subtle radial glow behind the image side */}
       <div className="absolute inset-0 pointer-events-none"
@@ -107,7 +107,7 @@ export default function AboutSection() {
       <div className="absolute top-0 inset-x-0 h-px"
         style={{ background: 'linear-gradient(90deg, transparent, rgba(0,168,107,0.4), transparent)' }} />
 
-      <div className="max-w-[1320px] mx-auto px-6 md:px-12 lg:px-16 py-28 md:py-36">
+      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 md:px-12 lg:px-16 py-16 md:py-28 lg:py-36">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-20 items-center">
 
           {/* ── LEFT — text ── */}
@@ -157,7 +157,7 @@ export default function AboutSection() {
             <motion.div
               animate={{ y: [0, -16, 0] }}
               transition={{ repeat: Infinity, duration: 5.5, ease: 'easeInOut' }}
-              className="relative w-full max-w-[500px]"
+              className="relative w-full max-w-[420px] sm:max-w-[500px]"
             >
               {/* Shadow ellipse */}
               <motion.div
@@ -185,8 +185,8 @@ export default function AboutSection() {
                 initial={{ opacity: 0, scale: 0.75, x: -10 }}
                 animate={inView ? { opacity: 1, scale: 1, x: 0 } : {}}
                 transition={{ delay: 0.75, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute -left-7 top-10 flex items-center gap-2.5 px-4 py-3 rounded-2xl"
-                style={{ background: '#0f1f14', border: '1px solid rgba(0,168,107,0.25)', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}
+                className="hidden sm:flex absolute -left-7 top-10 items-center gap-2.5 px-4 py-3 rounded-2xl"
+                style={{ background: '#1a2e1c', border: '1px solid rgba(0,168,107,0.25)', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}
               >
                 <span className="flex items-center justify-center w-8 h-8 rounded-full text-base" style={{ background: 'rgba(0,168,107,0.15)' }}>🌱</span>
                 <div>
@@ -200,7 +200,7 @@ export default function AboutSection() {
                 initial={{ opacity: 0, scale: 0.75, x: 10 }}
                 animate={inView ? { opacity: 1, scale: 1, x: 0 } : {}}
                 transition={{ delay: 0.95, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute -right-7 bottom-16 flex items-center gap-2.5 px-4 py-3 rounded-2xl"
+                className="hidden sm:flex absolute -right-7 bottom-16 items-center gap-2.5 px-4 py-3 rounded-2xl"
                 style={{ background: 'linear-gradient(135deg,#00a86b,#006644)', boxShadow: '0 8px 32px rgba(0,168,107,0.3)' }}
               >
                 <span className="text-base">⚡</span>

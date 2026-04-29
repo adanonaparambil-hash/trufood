@@ -93,7 +93,7 @@ export default function VideoShowcase() {
       id="video-showcase"
       ref={sectionRef}
       className="relative w-full overflow-hidden"
-      style={{ background: '#030503', padding: '0 0 0 0' }}
+      style={{ background: '#111a12', padding: '0 0 0 0' }}
     >
       {/* ── Top ambient gradient ── */}
       <div className="absolute top-0 inset-x-0 h-px pointer-events-none"
@@ -107,9 +107,9 @@ export default function VideoShowcase() {
         initial={{ opacity: 0, y: 30 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-        className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 pt-20 pb-10"
+        className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-12 lg:px-16 pt-14 md:pt-20 pb-8 md:pb-10"
       >
-        <div className="flex items-end justify-between flex-wrap gap-6">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6">
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="h-px w-8" style={{ background: 'rgba(140,159,78,0.65)' }} />
@@ -187,7 +187,7 @@ export default function VideoShowcase() {
               borderRadius: 24,
               border: '1px solid rgba(140,159,78,0.18)',
               aspectRatio: '16/9',
-              background: '#020402',
+              background: '#111a12',
               cursor: 'none',
             }}
             onMouseMove={resetCtrlTimer}
@@ -216,25 +216,25 @@ export default function VideoShowcase() {
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
-                background: 'radial-gradient(ellipse 100% 100% at 50% 50%, transparent 55%, rgba(2,4,2,0.55) 100%)',
+                background: 'radial-gradient(ellipse 100% 100% at 50% 50%, transparent 55%, rgba(17,26,18,0.55) 100%)',
               }}
             />
             {/* Edge gradient bottom */}
             <div
               className="absolute bottom-0 inset-x-0 h-36 pointer-events-none"
-              style={{ background: 'linear-gradient(to top, rgba(2,4,2,0.65), transparent)' }}
+              style={{ background: 'linear-gradient(to top, rgba(17,26,18,0.65), transparent)' }}
             />
             {/* Edge gradient top */}
             <div
               className="absolute top-0 inset-x-0 h-20 pointer-events-none"
-              style={{ background: 'linear-gradient(to bottom, rgba(2,4,2,0.4), transparent)' }}
+              style={{ background: 'linear-gradient(to bottom, rgba(17,26,18,0.4), transparent)' }}
             />
 
             {/* ── Corner brand badge ── */}
             <div
               className="absolute top-5 left-5 flex items-center gap-2.5 px-3.5 py-2 rounded-full pointer-events-none"
               style={{
-                background: 'rgba(3,5,3,0.75)',
+                background: 'rgba(17,26,18,0.82)',
                 backdropFilter: 'blur(14px)',
                 border: '1px solid rgba(140,159,78,0.2)',
               }}
@@ -311,7 +311,7 @@ export default function VideoShowcase() {
                         className="flex items-center justify-center rounded-full"
                         style={{
                           width: 60, height: 60,
-                          background: 'rgba(5,8,5,0.6)',
+                          background: 'rgba(17,26,18,0.7)',
                           backdropFilter: 'blur(12px)',
                           border: '1px solid rgba(255,255,255,0.15)',
                         }}
@@ -455,7 +455,7 @@ export default function VideoShowcase() {
                     className="flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110"
                     style={{
                       width: 36, height: 36,
-                      background: 'rgba(3,5,3,0.7)',
+                      background: 'rgba(17,26,18,0.78)',
                       backdropFilter: 'blur(12px)',
                       border: '1px solid rgba(255,255,255,0.12)',
                       color: 'rgba(255,255,255,0.55)',
@@ -472,14 +472,13 @@ export default function VideoShowcase() {
         </motion.div>
       </motion.div>
 
-      {/* ── Bottom caption bar ── */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
         transition={{ delay: 0.7 }}
-        className="flex items-center justify-center gap-6 py-10"
+        className="flex items-center justify-center gap-3 sm:gap-6 py-8 md:py-10 px-4 flex-wrap"
       >
-        <div className="h-px flex-1 max-w-24"
+        <div className="h-px flex-1 max-w-16 sm:max-w-24"
           style={{ background: 'linear-gradient(90deg, transparent, rgba(140,159,78,0.2))' }} />
         {[
           'Zero Pesticides',
@@ -490,13 +489,13 @@ export default function VideoShowcase() {
         ].map((t, i) => (
           <span
             key={i}
-            className={t === '·' ? '' : 'text-[10px] tracking-[0.22em] uppercase'}
+            className={t === '·' ? 'hidden sm:inline' : 'text-[9px] sm:text-[10px] tracking-[0.18em] sm:tracking-[0.22em] uppercase'}
             style={{ color: t === '·' ? 'rgba(140,159,78,0.35)' : 'rgba(255,255,255,0.2)', fontSize: t === '·' ? 14 : undefined }}
           >
             {t}
           </span>
         ))}
-        <div className="h-px flex-1 max-w-24"
+        <div className="h-px flex-1 max-w-16 sm:max-w-24"
           style={{ background: 'linear-gradient(90deg, rgba(140,159,78,0.2), transparent)' }} />
       </motion.div>
 
