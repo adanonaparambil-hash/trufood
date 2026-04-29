@@ -162,6 +162,7 @@ export default function TechnologyPage() {
   const s4Opacity = useTransform(lerpedProgress, [0.82, 0.90], [0, 1])
 
   return (
+    <>
     <div ref={wrapperRef} style={{ height: '600vh', background: '#050805' }}>
       <NoiseOverlay />
       <ChromaticAberration intensity={chromaIntensity} />
@@ -449,7 +450,8 @@ export default function TechnologyPage() {
         </div>
 
       </div>
-      <Footer />
     </div>
+    <Footer />
+    </>
   )
 }

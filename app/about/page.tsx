@@ -34,7 +34,7 @@ function HeroSection() {
       {/* Parallax image */}
       <motion.div className="absolute inset-0" style={{ y, scale: scl }}>
         <img
-          src="/about-1.jpeg"
+          src="/about-4.jpeg"
           alt="Trufud vertical farm"
           className="w-full h-full object-cover object-center"
           draggable={false}
@@ -455,9 +455,6 @@ export default function AboutPage() {
                     <span style={{ color: '#8C9F4E', fontStyle: 'italic' }}>pave the way for the future of agriculture."</span>
                   </p>
                 </div>
-
-                {/* Bottom image */}
-                <ImageCard src="/about-3.jpeg" alt="Farm systems overview" aspect="21/9" />
 
               </div>
             </RevealSection>

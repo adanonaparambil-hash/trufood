@@ -35,7 +35,8 @@ export default function VideoShowcase() {
 
   /* autoplay once in view */
   useEffect(() => {
-    if (inView && videoRef.current && !playing) {
+    if (inView && videoRef.current) {
+      videoRef.current.load()
       videoRef.current.play().then(() => setPlaying(true)).catch(() => {})
     }
   }, [inView]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -196,17 +197,19 @@ export default function VideoShowcase() {
             {/* The video */}
             <video
               ref={videoRef}
-              src="/TruFud_Farms_Video.mp4"
               className="absolute inset-0 w-full h-full object-cover"
               playsInline
               muted
               loop
               preload="metadata"
+              poster="/tech-tunnel.jpeg"
               onTimeUpdate={onTimeUpdate}
               onLoadedMetadata={onLoadedMetadata}
               onPlay={() => setPlaying(true)}
               onPause={() => setPlaying(false)}
-            />
+            >
+              <source src="/TruFudFarmsVedio.mp4" type="video/mp4" />
+            </video>
 
             {/* Vignette overlay */}
             <div
