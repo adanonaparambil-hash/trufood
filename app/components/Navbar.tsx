@@ -7,10 +7,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 const NAV_LINKS = ['Home', 'About Us', 'Technology', 'Our Philosophy', 'Products', 'Contact']
 
 const NAV_HREF: Record<string, string> = {
-  'Home': '/',
-  'About Us': '/about',
-  'Technology': '/technology',
-  'Products': '/products',
+  'Home':           '/',
+  'About Us':       '/about',
+  'Technology':     '/technology',
+  'Our Philosophy': '/philosophy',
+  'Products':       '/products',
+  'Contact':        '/#contact',
 }
 
 export default function Navbar({ activePage }: { activePage?: string }) {
@@ -27,44 +29,46 @@ export default function Navbar({ activePage }: { activePage?: string }) {
     <header
       className="fixed top-0 inset-x-0 z-[9995] transition-all duration-500"
       style={{
-        background: scrolled ? 'rgba(10,12,10,0.88)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(18px)' : 'none',
+        background: scrolled ? 'rgba(8,11,8,0.92)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px)' : 'none',
         borderBottom: scrolled ? '1px solid rgba(255,255,255,0.07)' : 'none',
       }}
     >
-      <nav className="max-w-[1400px] mx-auto px-8 h-[76px] flex items-center justify-between gap-8">
+      <nav className="max-w-[1400px] mx-auto px-10 h-[88px] flex items-center justify-between gap-10">
 
         {/* Logo */}
-        <Link href="/" className="flex-shrink-0 flex items-center gap-2 group">
+        <Link href="/" className="flex-shrink-0 flex items-center gap-3 group">
           <img
             src="/logo.png"
             alt="Trufud Trading SPC"
-            className="h-9 w-auto"
+            className="h-11 w-auto"
             style={{ filter: 'brightness(0) invert(1)', opacity: 0.95 }}
           />
           <span
-            className="hidden sm:block text-[9px] tracking-[0.22em] uppercase font-medium"
-            style={{ color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}
+            className="hidden sm:block text-[10px] tracking-[0.24em] uppercase font-semibold"
+            style={{ color: 'rgba(255,255,255,0.38)', marginTop: '2px' }}
           >
             Trading SPC
           </span>
         </Link>
 
         {/* Desktop links */}
-        <ul className="hidden lg:flex items-center gap-7">
+        <ul className="hidden lg:flex items-center gap-8">
           {NAV_LINKS.map((l) => {
             const isActive = l === activePage
             return (
               <li key={l}>
                 <Link
-                  href={NAV_HREF[l] ?? '#'}
-                  className="relative text-sm font-medium transition-colors duration-200 pb-0.5"
-                  style={{ color: isActive ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.5)' }}
+                  href={NAV_HREF[l]}
+                  prefetch={true}
+                  className="relative text-[13px] font-medium tracking-wide transition-colors duration-200 pb-1"
+                  style={{ color: isActive ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.52)' }}
                 >
                   {isActive && (
-                    <span
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full"
-                      style={{ background: '#7a9a4a' }}
+                    <motion.span
+                      layoutId="nav-underline"
+                      className="absolute -bottom-0.5 left-0 right-0 h-0.5 rounded-full"
+                      style={{ background: '#8C9F4E' }}
                     />
                   )}
                   {l}
@@ -75,17 +79,17 @@ export default function Navbar({ activePage }: { activePage?: string }) {
         </ul>
 
         {/* CTA */}
-        <a
-          href="#"
-          className="hidden lg:inline-flex items-center gap-2 text-sm font-medium px-5 py-2.5 rounded-full transition-all duration-200 hover:bg-white/10"
-          style={{ color: 'rgba(255,255,255,0.85)', border: '1px solid rgba(255,255,255,0.35)' }}
+        <Link
+          href="/#contact"
+          className="hidden lg:inline-flex items-center gap-2 text-[13px] font-semibold px-6 py-3 rounded-full transition-all duration-200 hover:bg-white/10"
+          style={{ color: 'rgba(255,255,255,0.88)', border: '1px solid rgba(255,255,255,0.3)' }}
         >
           Get In Touch
-        </a>
+        </Link>
 
         {/* Mobile hamburger */}
         <button
-          className="lg:hidden flex flex-col justify-center items-end gap-1.5 w-8 h-8"
+          className="lg:hidden flex flex-col justify-center items-end gap-1.5 w-9 h-9"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Menu"
         >
@@ -93,7 +97,7 @@ export default function Navbar({ activePage }: { activePage?: string }) {
             <span
               key={i}
               className="block h-0.5 rounded-full transition-all duration-300"
-              style={{ width: `${w * 20}px`, background: 'rgba(255,255,255,0.7)' }}
+              style={{ width: `${w * 22}px`, background: 'rgba(255,255,255,0.75)' }}
             />
           ))}
         </button>
@@ -108,26 +112,28 @@ export default function Navbar({ activePage }: { activePage?: string }) {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.22 }}
             className="lg:hidden overflow-hidden"
-            style={{ background: 'rgba(8,12,8,0.97)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}
+            style={{ background: 'rgba(6,10,6,0.98)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}
           >
-            <div className="px-8 py-6 flex flex-col gap-5">
+            <div className="px-10 py-7 flex flex-col gap-6">
               {NAV_LINKS.map((l) => (
                 <Link
                   key={l}
-                  href={NAV_HREF[l] ?? '#'}
-                  className="text-sm"
-                  style={{ color: l === activePage ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.6)' }}
+                  href={NAV_HREF[l]}
+                  onClick={() => setMobileOpen(false)}
+                  className="text-[15px] font-medium"
+                  style={{ color: l === activePage ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.55)' }}
                 >
                   {l}
                 </Link>
               ))}
-              <a
-                href="#"
-                className="text-sm font-medium px-5 py-2.5 rounded-full text-center mt-2"
-                style={{ border: '1px solid rgba(255,255,255,0.3)', color: 'rgba(255,255,255,0.85)' }}
+              <Link
+                href="/#contact"
+                onClick={() => setMobileOpen(false)}
+                className="text-[14px] font-semibold px-6 py-3 rounded-full text-center mt-1"
+                style={{ border: '1px solid rgba(255,255,255,0.28)', color: 'rgba(255,255,255,0.88)' }}
               >
                 Get In Touch
-              </a>
+              </Link>
             </div>
           </motion.div>
         )}
