@@ -1,4 +1,4 @@
-// File: C:\Users\ITS48\Desktop\Truefood\app\layout.tsx
+// File: C:\Users\ITS48\Desktop\AdrakProjects\TrueFood\trufood\app\layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
