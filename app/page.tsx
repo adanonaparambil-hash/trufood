@@ -196,18 +196,7 @@ function HeroSection() {
                 {slide.sub}
               </p>
 
-              <motion.a
-                href="#"
-                whileHover={{ scale: 1.04, boxShadow: '0 8px 40px rgba(107,140,62,0.45)' }}
-                whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-semibold transition-all duration-200"
-                style={{ background: '#6b8c3e', color: '#fff' }}
-              >
-                Discover More
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                  <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </motion.a>
+
             </motion.div>
           </AnimatePresence>
         </div>
@@ -237,13 +226,15 @@ function HeroSection() {
             {/* Social */}
             <div className="flex items-center gap-4">
               {[
-                { icon: <IconFacebook />, label: 'Facebook' },
-                { icon: <IconInstagram />, label: 'Instagram' },
-                { icon: <IconLinkedin />, label: 'LinkedIn' },
-              ].map(({ icon, label }) => (
+                { icon: <IconFacebook />,   label: 'Facebook',  href: 'https://www.facebook.com/share/aWy4LzVVWCxqKSvj/' },
+                { icon: <IconInstagram />,  label: 'Instagram', href: 'https://www.instagram.com/trufudoman?igsh=cTBoZ3I1MXBmeDRr' },
+                { icon: <IconLinkedin />,   label: 'LinkedIn',  href: 'https://www.linkedin.com/company/trufud-oman/' },
+              ].map(({ icon, label, href }) => (
                 <a
                   key={label}
-                  href="#"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="transition-all duration-200 hover:scale-110"
                   style={{ color: 'rgba(255,255,255,0.45)' }}
@@ -284,6 +275,7 @@ function HeroSection() {
               <button
                 className="flex items-center gap-3 group"
                 aria-label="Watch Our Story"
+                onClick={() => document.getElementById('video-showcase')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.55)' }}>
                   Watch Our Story

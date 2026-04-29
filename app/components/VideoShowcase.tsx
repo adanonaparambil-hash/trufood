@@ -90,6 +90,7 @@ export default function VideoShowcase() {
 
   return (
     <section
+      id="video-showcase"
       ref={sectionRef}
       className="relative w-full overflow-hidden"
       style={{ background: '#030503', padding: '0 0 0 0' }}
