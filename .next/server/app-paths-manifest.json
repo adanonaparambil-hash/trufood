@@ -1,7 +1,0 @@
-{
-  "/page": "app/page.js",
-  "/philosophy/page": "app/philosophy/page.js",
-  "/products/page": "app/products/page.js",
-  "/about/page": "app/about/page.js",
-  "/technology/page": "app/technology/page.js"
-}
